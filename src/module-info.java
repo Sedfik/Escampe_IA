@@ -1,0 +1,2 @@
+module escampe_ia {
+}
