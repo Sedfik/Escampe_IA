@@ -9,6 +9,8 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.util.Pair;
+
 public class EscampeBoard {
 	
 	//Attributs
@@ -31,7 +33,6 @@ public class EscampeBoard {
     
 	private String[] white = new String[6];
 	private String[] black = new String[6];
-	private char[][] board = new char[6][6];
 	private int last_lisere = 0;
 	private String bord_noir;
 	
@@ -106,7 +107,10 @@ public class EscampeBoard {
 	public boolean isValidMove(String move, String player){
 		
 		////////////////////////////////Ya certains test qui ne sont pas forcement necessaires ? (test si ca sort du tableau. Si on sait qu'on ne va pas donner des cases qui sortent du tableau, pas besoin de test)
-				
+		/////////////////////////////// Le bail qui regarde si la case d'arrivee a un pion, deja fait dans possiblemoves
+		
+		///////////////////////////////Pas forcement besoin d'enlever board des attributs (on s'en sert tout le temps)
+		
 		//Pour le placement en debut de partie
         if(move.length() > 5){
         	String[] pions = move.split("/");
@@ -278,6 +282,7 @@ public class EscampeBoard {
 		
 		
 		
+		
 		//On regarde les cases atteignables :
 		//On recupere le lisere
 		//On regarde les pions possibles
@@ -295,8 +300,70 @@ public class EscampeBoard {
 		return possible_moves;
 	}
 	
+	public ArrayList<Pair<String,String>> explore_sides (String case_depart, String venu_de, String player) {
+		////////////////////////////Il ne faut pas que ca sorte du tableau
+		char[][] board = lists_to_board();
+		String[] directions = {"haut","bas","droite","gauche"};
+		ArrayList<Pair<String,String>> res = new ArrayList<>();
+		int start_i = get_i_from_string(case_depart);
+		int start_j = get_j_from_string(case_depart);
+		for (String d : directions) {
+			if (d!=venu_de) {
+				if (d=="haut") {
+					if (!is_occupied(start_i-1,start_j,player)){
+						String alpha = String.valueOf(alphabet[start_i-1]);
+						String indice = String.valueOf(start_j);
+						String new_case = alpha+indice;
+						res.add(new Pair<>(new_case,"bas"));
+					}
+				}
+				if (d=="bas") {
+					if (!is_occupied(start_i+1,start_j,player)){
+						String alpha = String.valueOf(alphabet[start_i+1]);
+						String indice = String.valueOf(start_j);
+						String new_case = alpha+indice;
+						res.add(new Pair<>(new_case,"haut"));
+					}
+				}				
+				if (d=="droite") {
+					if (!is_occupied(start_i,start_j+1,player)){
+						String alpha = String.valueOf(alphabet[start_i]);
+						String indice = String.valueOf(start_j+1);
+						String new_case = alpha+indice;
+						res.add(new Pair<>(new_case,"gauche"));
+					}
+				}
+				if (d=="gauche") {
+					if (!is_occupied(start_i-1,start_j-1,player)){
+						String alpha = String.valueOf(alphabet[start_i]);
+						String indice = String.valueOf(start_j-1);
+						String new_case = alpha+indice;
+						res.add(new Pair<>(new_case,"droite"));
+					}
+				}
+			}
+		}
+		return res;
+	}
+	
+	public boolean is_occupied (int i, int j, String player) {
+		char[][] board = lists_to_board();
+		if (player=="noir") {
+			if ( (board[i][j]=='-')||(board[i][j]=='B') ) {
+				return false;
+			}
+		}
+		if (player=="blanc") {
+			if ( (board[i][j]=='-')||(board[i][j]=='N') ) {
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public void play(String move, String player){
 		//pour le placement en debut de partie
+		char[][] board = lists_to_board();
         if(move.length() > 5){ 
             String[] pions = move.split("/");
 
@@ -352,11 +419,12 @@ public class EscampeBoard {
 		return ( (white[0]=="ZZ")|(black[0]=="ZZ") );
 	}
 	
-	public void lists_to_board(){
+	public char[][] lists_to_board(){
+		char[][] board = new char[6][6];
 		//Initialisation
 		for(int i=0; i<6; i++){
 			for(int j=0; j<6; j++){
-				board[i][j]='r';
+				board[i][j]='-';
 			}
 		}
 		//Positionnement des licornes
@@ -368,6 +436,7 @@ public class EscampeBoard {
 			board[get_i_from_string(this.white[0])][get_j_from_string(this.white[0])] = 'b';
 			board[get_i_from_string(this.black[0])][get_j_from_string(this.black[0])] = 'n';
 		}
+		return board;
 	}
 	
 	int get_i_from_string(String s){
