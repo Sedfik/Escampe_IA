@@ -105,7 +105,7 @@ public class EscampeBoard {
 	
 	public boolean isValidMove(String move, String player){
 		
-		////////////////////////////// Case occupee. Tester avec la classe test
+		////////////////////////////////Ya certains test qui ne sont pas forcement necessaires ? (test si ca sort du tableau. Si on sait qu'on ne va pas donner des cases qui sortent du tableau, pas besoin de test)
 				
 		//Pour le placement en debut de partie
         if(move.length() > 5){
@@ -258,7 +258,10 @@ public class EscampeBoard {
 		else {
 			pions = black;
 		}
+		
+		
 		//On test toutes les combinaisons de coups possibles et on garde celles qui sont valides
+		
 		for(String s: pions) {
 			////////////////////////On peut regarder juste les cases a -3;+3 pour optimiser (sinon on regarde les cases atteignables et on les fait passer par la fonction)
 			for (char i : alphabet) {
@@ -272,10 +275,16 @@ public class EscampeBoard {
 			}
 		}
 		
-		//On regarde les cases atteignables 
+		
+		
+		
+		//On regarde les cases atteignables :
 		//On recupere le lisere
 		//On regarde les pions possibles
 		//On regarde les cases atteignables grace a une fonction recursive.
+		//on fait passer tout ca par isValidMove
+		//Pas besoin du test de lisere dans isValidMove du coup
+		
 		
 		
 		//On convertit l'array en un tableau
