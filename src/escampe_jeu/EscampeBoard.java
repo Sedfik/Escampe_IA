@@ -82,7 +82,7 @@ public class EscampeBoard {
 	
 	public void saveToFile(String fileName){
 		String sauvegarde = "%\tABCDEF\n";
-
+		String[][] board = new String[6][6];
 		for(int i = 0; i < 6; i++){
 			sauvegarde += "0"+ (i+1) +"\t";
 			for(int j = 0; j < 6; j++){
