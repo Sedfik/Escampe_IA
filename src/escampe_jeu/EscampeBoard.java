@@ -177,6 +177,18 @@ public class EscampeBoard {
         if (!v2) {
         	return false;
         }
+        int last_lisere = 3;
+        boolean ret = false;
+        if(end_i == last_lisere) {
+        	for(int i = 0; i < last_lisere; i++) {
+        		ret = ret && (board[i][start_j] != 'b');
+        	}
+        	return ret;
+        }
+        
+        
+        
+        
         
         //On recupere le lisere de la case depart
         int start_lis = liserePlateau[start_i][start_j];
