@@ -1,4 +1,4 @@
-package escampe_jeu;
+package escampe;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -483,7 +483,7 @@ public class EscampeBoard {
 	}
 	
 	public boolean gameOver(){
-		//On regarde si l'une des deux positions des licornes est égale à ZZ
+		//On regarde si l'une des deux positions des licornes est ï¿½gale ï¿½ ZZ
 		return ( (white[0]=="ZZ")||(black[0]=="ZZ") );
 	}
 	
@@ -562,7 +562,7 @@ public class EscampeBoard {
 	    eb.play("B5-A3","blanc");
 	    System.out.println(eb);
 	 
-	    // On regarde si on a gagné
+	    // On regarde si on a gagnï¿½
 	    System.out.println("Fin de partie: "+eb.gameOver());
 	    */
 	}
