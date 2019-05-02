@@ -47,7 +47,6 @@ public class EscampeBoard {
 	
 	//Methodes demandees
 	public void setFromFile(String fileName){
-		System.out.println("EscampeBoard.setFromFile()");
         Path path = Paths.get(fileName);
 
         int pionNoir = 0;
@@ -63,20 +62,14 @@ public class EscampeBoard {
                     char[] valueLine = splitedLine[1].toCharArray();
 
                     for(int j = 0; j < 6; j++){
-                        //System.out.println("j:" + valueLine[j]);
                         switch (valueLine[j]){
                             case 'B': white[0] = ""+alphabet[j]+""+(iLine+1);
-                                System.out.println("LW: "+white[0]);    
                                 break;
                             case 'b': white[++pionBlanc] = ""+alphabet[j]+""+(iLine+1);
-                            System.out.println("W: "+white[pionBlanc]);    
                             break;
                             case 'N': black[0] = ""+alphabet[j]+""+(iLine+1);
-                            System.out.println("LB: "+black[0]);
                                 break;
-                            case 'n': black[++pionNoir] = ""+alphabet[j]+""+(iLine+1);
-                            System.out.println("B: "+black[pionNoir]);    
- 
+                            case 'n': black[++pionNoir] = ""+alphabet[j]+""+(iLine+1); 
                                 break;
                             default: break;
                         }
@@ -90,7 +83,6 @@ public class EscampeBoard {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("Fin");
 	}
 	
 	public void saveToFile(String fileName){
@@ -100,9 +92,7 @@ public class EscampeBoard {
             sauvegarde += "0"+ (i+1) +"\t";
             for(int j = 0; j < 6; j++){
                 sauvegarde += board[i][j];
-                System.out.print(board[i][j]);
             }
-            System.out.println("");
 			sauvegarde += "\t0" + (i+1) + "\n";
 		}
 		sauvegarde += "%\tABCDEF\n";
@@ -122,11 +112,8 @@ public class EscampeBoard {
 	public boolean isValidMove(String move, String player){
 		
 		/////////////////////////////// Pas forcement besoin d'enlever board des attributs (on s'en sert tout le temps)
-		/////////////////////////////// gerer les conflits avec j et i. (j en premier indice) . j commence 0/1. alphabet[i] aussi
-		/////////////////////////////// a la place que possible_moves appelle isvalidmove, isvalidemove peut appeller possiblemoves
 		/////////////////////////////// Sens des liseres pas important?
 		
-		System.out.println("EscampeBoard.isValidMove()");
 		
 		//Pour le placement en DEBUT de partie
         if(move.length() > 5){
@@ -186,92 +173,28 @@ public class EscampeBoard {
         }
 		
         //Pour le deplacement en MILIEU de partie
-        else {        	
+        else {  
+        	String[] possible_moves = possibleMoves(player);
+        	for(int i=0; i<possible_moves.length;i++) {
+        		if (possible_moves[i]==move) {
+        			return true;
+        		}
+        	}
+        	return false;
+        	
+        	/**
         	//On split le move
     		String[] change = move.split("-");
-    		
-    		
             String start = change[0];
             String end = change[1];
-            
-            System.out.println("start: "+start+ " end: "+ end);
             
             //On recupere les indices correspondants a la case de depart et d'arrivee
             int start_i = get_i_from_string(start);
             int start_j = get_j_from_string(start);
             int end_i = get_i_from_string(end);
             int end_j = get_j_from_string(end);
-            
+
             return true;
-            
-            /**
-        	//On verifie le respect du lisere
-            if (last_lisere!=0) { //last_lisere egal a 0 en debut de partie pour que le premier joueur puisse deplacer le pion de son choix
-                if (liserePlateau[start_i][start_j]!=last_lisere){
-                	return false;
-                }
-            }
-            
-            //On verifie que le joueur a bien un pion sur la case depart
-            boolean v = false;
-            if(player == "blanc") {
-            	for (int i=0; i<6; i++) {
-            		if (white[i]==start) {
-            			v = true;
-            		}
-            	}
-            }
-            else {
-            	for (int i=0; i<6; i++) {
-            		if (black[i]==start) {
-            			v = true;
-            		}
-            	}
-            }
-            if (!v){
-            	return false;
-            }
-            
-            //On verifie que la case d'arrivee ne sort pas du tableau
-            if ((end_i<0)||(end_i>5)||(end_j<0)||(end_j>5)) {
-            	return false;
-            }
-            
-            //On regarde s'il existe deja un pion autre que la licorne adverse sur la case d'arrivee
-            boolean v2 = true;
-            for(int i=1; i<6; i++) {
-            	if ((white[i]==end)||(black[i]==end)){
-            		v2 = false;
-            	}
-            }
-            //un pion blanc ne peut pas aller sur la case occupee par la licorne amie
-            if (player == "blanc") {
-            	if (white[0]==end) {
-            		v2 = false;
-            	}
-            }
-            else {
-            	if (black[0]==end) {
-            		v2 = false;
-            	}
-            }
-            //On retourne faux si la case est occupee par un autre pion que la licorne ennemie
-            if (!v2) {
-            	return false;
-            }
-            
-            //On recupere le lisere de la case depart
-            int start_lis = liserePlateau[start_i][start_j];
-            //Puis on verifie que le deplacement est bien possible avec ce nb de mouvement
-            
-            //////////////////////////////////Rajouter : interdit de passer 2 fois par la meme case ? , interdit de passer par une case occupee ? 
-            int nbMouvement = Math.abs(start_i - end_i) + Math.abs(start_j-end_j);
-            if(start_lis == 3){
-                return ( nbMouvement== 1 || nbMouvement == 3);
-            }
-            else {// Lisere == 1 || 2
-                return (nbMouvement == start_lis);
-            }
             **/
         }
         return false;
@@ -310,7 +233,6 @@ public class EscampeBoard {
 			}
 		}
 		
-		ArrayList<String> potential_moves = new ArrayList<>();
 		//Pour chaque pions deplacables, on regarde ses differentes cases atteignables
 		for (String p : pions_deplacables) {
 			//On met dans une HashMap la position du pion ainsi que une direction "nul" qui represente la direction de la ou on vient dans l'exploration des cases (donc nul au depart)
@@ -320,16 +242,9 @@ public class EscampeBoard {
 			//On traduit tout ca sous forme de coups potentiels
 			for (String c : cases_atteignables) {
 				String move = p+"-"+c;
-				potential_moves.add(move);
+				possible_moves.add(move);
 			}
 		}		
-		
-		//On ajoute tous les coups valides dans le tableau
-		for(String m : potential_moves) {
-			if (isValidMove(m,player)) {
-				possible_moves.add(m);
-			}
-		}
 		
 		//On convertit l'array en un tableau
 		String[] possible_moves_tab = new String[possible_moves.size()];
@@ -488,7 +403,6 @@ public class EscampeBoard {
 	}
 	
 	public char[][] lists_to_board(){
-		System.out.println("EscampeBoard.lists_to_board()");
 		//Initialisation
 		char[][] board = new char[6][6];
 		for(int i=0; i<6; i++){
@@ -502,8 +416,6 @@ public class EscampeBoard {
 		
 		//Affectation des pions blancs
 		for(int i=1; i<6; i++){
-			System.err.println(this.white[i]);
-            //System.out.println(get_i_from_string(this.white[i])+" : "+get_j_from_string(this.white[i]));
 			board[get_i_from_string(this.white[i])][get_j_from_string(this.white[i])] = 'b';
 			board[get_i_from_string(this.black[i])][get_j_from_string(this.black[i])] = 'n';
 		}
@@ -541,29 +453,11 @@ public class EscampeBoard {
 	    eb.saveToFile(projectDir + "\\src\\data\\sauvegarde.txt");
 	 
 	    // Test isValideMove
-        System.out.println("isValideMove: "+eb.isValidMove("A1-A2", "blanc"));
         
 	    // On cherche tous les moves
         String[] pm = eb.possibleMoves("blanc");
-        System.out.println("possible Moves");
         for(String s : pm) {
             System.out.println(s);
         }
-        /*
-	 
-	    // On joue un move
-	    eb.play("A1-A2","blanc");
-	    System.out.println(eb);
-	 
-	    // On cherche tous les moves
-	    eb.possibleMoves("noir");
-	 
-	    // On joue un move
-	    eb.play("B5-A3","blanc");
-	    System.out.println(eb);
-	 
-	    // On regarde si on a gagn�
-	    System.out.println("Fin de partie: "+eb.gameOver());
-	    */
 	}
 }
