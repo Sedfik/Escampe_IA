@@ -36,6 +36,14 @@ public class EscampeBoard {
 	private int last_lisere = 0;
 	private String bord_noir;
 	
+	public String[] getWhite() {
+		return this.white;
+	}
+	
+	public String[] getBlack() {
+		return this.black;
+	}
+	
 	public EscampeBoard (String[] w, String[] b){
 		this.white = w;
 		this.black = b;
@@ -43,6 +51,8 @@ public class EscampeBoard {
 	
     public EscampeBoard() {
         // TODO Auto-generated constructor stub
+    	this.white = new String[] {null};
+    	this.black = new String[] {null};
     }
 	
 	//Methodes demandees
@@ -350,24 +360,21 @@ public class EscampeBoard {
 	
 	public void play(String move, String player){
 		//pour le placement en debut de partie
-		char[][] board = lists_to_board();
+		
         if(move.length() > 5){ 
             String[] pions = move.split("/");
-
+            
             if(player == "blanc"){
-                for(int i = 0; i < 6; i++) {
-                    white[i] = pions[i];
-                }
+                    white = pions;
             }
             else {
-                for(int i = 0; i < 6; i++){
-                    black[i] = pions[i];
-                }
+                    black = pions;
             }
         }
         //pour un deplacement normal
         else{
-            String[] change = move.split("-");
+        	char[][] board = lists_to_board();
+        	String[] change = move.split("-");
             String start = change[0];
             String end = change[1];
             int end_i = get_i_from_string(end);
@@ -392,12 +399,7 @@ public class EscampeBoard {
             	}
                 int pion = 0;
                 while(!black[pion].contentEquals(start)){
-<<<<<<< HEAD
-                	pion++;
-                    
-=======
-                    pion++;
->>>>>>> 0345cffdbb097f43c16238b67adc9f66d453b927
+                	pion++;               
                 }
                 black[pion] = end;
             }

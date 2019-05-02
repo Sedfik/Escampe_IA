@@ -3,14 +3,14 @@ package escampe;
 public class JoueurSuperFort implements IJoueur{
 
 	private String player;
-	private EscampeBoard board;
+	private static EscampeBoard board;
 	
 	
 	@Override
 	public void initJoueur(int mycolour) {
 		// TODO Auto-generated method stub
 		board = new EscampeBoard();
-		board.setFromFile("\\src\\data\\plateau1.txt");
+		//board.setFromFile("\\src\\data\\plateau1.txt");
 		if(mycolour == -1)
 			player = "blanc";
 		else
@@ -30,9 +30,15 @@ public class JoueurSuperFort implements IJoueur{
 	@Override
 	public String choixMouvement() {
 		// TODO Auto-generated method stub
-		
-		String[] moves = board.possibleMoves(player);
-		return moves[0];
+		String w = "B2/A1/B1/C2/E2/F2";
+		String b = "C6/A6/B5/D5/E6/F5";
+		if((board.getWhite()[0] == null) || (board.getBlack()[0] == null)){
+			return ((player == "blanc") ?  w : b);
+		}
+		else {
+			String[] moves = board.possibleMoves(player);
+			return moves[0];
+		}
 	}
 
 	@Override
