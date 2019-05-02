@@ -1,4 +1,4 @@
-package escampe;
+package escampe;""
 
 public class JoueurSuperFort implements IJoueur{
 

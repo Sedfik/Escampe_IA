@@ -242,7 +242,7 @@ public class EscampeBoard {
 			//On met dans une HashMap la position du pion ainsi que une direction "nul" qui represente la direction de la ou on vient dans l'exploration des cases (donc nul au depart)
 			HashMap<String,String> pion = new HashMap<>();
 			pion.put(p, "nul");
-			ArrayList<String> cases_atteignables = explore_adjacents_rec (pion, player, 0);
+			ArrayList<String> cases_atteignables = explore_adjacents_rec (pion, player, 0, liserePlateau[get_i_from_string(p)][get_j_from_string(p)]);
 			//On traduit tout ca sous forme de coups potentiels
 			for (String c : cases_atteignables) {
 				String move = p+"-"+c;
@@ -258,9 +258,9 @@ public class EscampeBoard {
 		return possible_moves_tab;
 	}
 	
-	public ArrayList<String> explore_adjacents_rec (HashMap<String,String> cases, String player, int n){
+	public ArrayList<String> explore_adjacents_rec (HashMap<String,String> cases, String player, int n, int lisere){
 		//Si on a atteint le nombre de mouvements, on renvoie la liste des positions des cases atteignables
-		if (n==last_lisere) {
+		if (n==lisere) {
 			ArrayList<String> cases_atteignables = new ArrayList<>();
 			for (String c: cases.keySet()) {
 				cases_atteignables.add(c);
@@ -269,7 +269,7 @@ public class EscampeBoard {
 		}
 		else {
 			//Sinon, on explore une case plus loin
-			return explore_adjacents_rec( explore_adjacents(cases, player), player, n++); 
+			return explore_adjacents_rec( explore_adjacents(cases, player), player, n+1, lisere); 
 		}
 	}
 	
@@ -290,7 +290,7 @@ public class EscampeBoard {
 						if (start_i-1>=0) {
 							//Si la case n'est pas occupee, alors on l'ajoute dans le resultat
 							if (!is_occupied(start_i-1,start_j,player)){
-								String indice = String.valueOf(start_i-1 +1);
+								String indice = String.valueOf(start_i-1 +1);//+1 car c'est un indice
 								String alpha = String.valueOf(alphabet[start_j]);
 								String new_case = alpha+indice;
 								res.put(new_case,"bas");
@@ -319,7 +319,7 @@ public class EscampeBoard {
 					}
 					if (d=="gauche") {
 						if (start_j-1>=0) {
-							if (!is_occupied(start_i-1,start_j-1,player)){
+							if (!is_occupied(start_i,start_j-1,player)){
 								String indice = String.valueOf(start_i +1);
 								String alpha = String.valueOf(alphabet[start_j-1]);
 								String new_case = alpha+indice;
@@ -455,9 +455,9 @@ public class EscampeBoard {
 	    
 	    // Test saveToFile
 	    eb.saveToFile("\\src\\data\\sauvegarde.txt");
-	 
+	    
 	    // Test isValideMove
-        
+	    
 	    // On cherche tous les moves
         String[] pm = eb.possibleMoves("blanc");
         for(String s : pm) {
