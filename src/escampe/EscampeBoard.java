@@ -319,7 +319,7 @@ public class EscampeBoard {
 					}
 					if (d=="gauche") {
 						if (start_j-1>=0) {
-							if (!is_occupied(start_i-1,start_j-1,player)){
+							if (!is_occupied(start_i,start_j-1,player)){
 								String indice = String.valueOf(start_i +1);
 								String alpha = String.valueOf(alphabet[start_j-1]);
 								String new_case = alpha+indice;
@@ -391,8 +391,9 @@ public class EscampeBoard {
             		white[0]="ZZ";
             	}
                 int pion = 0;
-                while(black[pion] != start){
-                    pion++;
+                while(black[pion].contentEquals(start)){
+                	pion++;
+                    
                 }
                 black[pion] = end;
             }
@@ -457,7 +458,7 @@ public class EscampeBoard {
 	    eb.saveToFile("\\src\\data\\sauvegarde.txt");
 	 
 	    // Test isValideMove
-        
+        System.out.println(eb.isValidMove("A1-A2", "blanc"));
 	    // On cherche tous les moves
         String[] pm = eb.possibleMoves("blanc");
         for(String s : pm) {
