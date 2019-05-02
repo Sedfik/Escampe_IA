@@ -392,8 +392,12 @@ public class EscampeBoard {
             	}
                 int pion = 0;
                 while(!black[pion].contentEquals(start)){
+<<<<<<< HEAD
                 	pion++;
                     
+=======
+                    pion++;
+>>>>>>> 0345cffdbb097f43c16238b67adc9f66d453b927
                 }
                 black[pion] = end;
             }
