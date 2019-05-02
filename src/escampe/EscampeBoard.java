@@ -379,7 +379,7 @@ public class EscampeBoard {
             		black[0]="ZZ";
             	}
                 int pion = 0;
-                while(white[pion] != start){
+                while(!white[pion].contentEquals(start)){
                     pion++;
                 }
                 white[pion] = end;
@@ -391,7 +391,7 @@ public class EscampeBoard {
             		white[0]="ZZ";
             	}
                 int pion = 0;
-                while(black[pion] != start){
+                while(!black[pion].contentEquals(start)){
                     pion++;
                 }
                 black[pion] = end;

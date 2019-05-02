@@ -1,4 +1,4 @@
-package escampe;""
+package escampe;
 
 public class JoueurSuperFort implements IJoueur{
 
@@ -30,6 +30,7 @@ public class JoueurSuperFort implements IJoueur{
 	@Override
 	public String choixMouvement() {
 		// TODO Auto-generated method stub
+		
 		String[] moves = board.possibleMoves(player);
 		return moves[0];
 	}
@@ -52,7 +53,10 @@ public class JoueurSuperFort implements IJoueur{
 	@Override
 	public String binoName() {
 		// TODO Auto-generated method stub
-		return "Ramoyashi";
+		if(player == "blanc")
+			return ("kobayashi");
+		else
+			return ("ramos");
 	}
 
 }
