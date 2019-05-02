@@ -1,9 +1,10 @@
-package escampe;
+package escampe;""
 
 public class JoueurSuperFort implements IJoueur{
 
 	private String player;
 	private EscampeBoard board;
+	
 	
 	@Override
 	public void initJoueur(int mycolour) {
