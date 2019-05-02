@@ -379,7 +379,7 @@ public class EscampeBoard {
             		black[0]="ZZ";
             	}
                 int pion = 0;
-                while(white[pion] != start){
+                while(!white[pion].contentEquals(start)){
                     pion++;
                 }
                 white[pion] = end;
@@ -391,7 +391,7 @@ public class EscampeBoard {
             		white[0]="ZZ";
             	}
                 int pion = 0;
-                while(black[pion].contentEquals(start)){
+                while(!black[pion].contentEquals(start)){
                 	pion++;
                     
                 }
@@ -458,13 +458,11 @@ public class EscampeBoard {
 	    eb.saveToFile("\\src\\data\\sauvegarde.txt");
 	    
 	    // Test isValideMove
-<<<<<<< HEAD
+
         System.out.println(eb.isValidMove("A1-A2", "blanc"));
-=======
-	    
->>>>>>> 176a2308ec32929daea75430703a1af709a865a5
 	    // On cherche tous les moves
         String[] pm = eb.possibleMoves("blanc");
+
         for(String s : pm) {
             System.out.println(s);
         }
