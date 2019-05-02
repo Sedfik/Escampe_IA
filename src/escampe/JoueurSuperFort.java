@@ -10,7 +10,7 @@ public class JoueurSuperFort implements IJoueur{
 	public void initJoueur(int mycolour) {
 		// TODO Auto-generated method stub
 		board = new EscampeBoard();
-		
+		board.setFromFile("\\src\\data\\plateau1.txt");
 		if(mycolour == -1)
 			player = "blanc";
 		else

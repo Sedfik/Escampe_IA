@@ -47,8 +47,9 @@ public class EscampeBoard {
 	
 	//Methodes demandees
 	public void setFromFile(String fileName){
-        Path path = Paths.get(fileName);
-
+		String projectDir = Paths.get(".").toAbsolutePath().normalize().toString();
+		String filePath = projectDir + fileName;
+		Path path = Paths.get(filePath);
         int pionNoir = 0;
         int pionBlanc = 0;
 
@@ -86,6 +87,9 @@ public class EscampeBoard {
 	}
 	
 	public void saveToFile(String fileName){
+		String projectDir = Paths.get(".").toAbsolutePath().normalize().toString();
+		String filePath = projectDir + fileName;
+		
 		String sauvegarde = "%\tABCDEF\n";
         char[][] board = lists_to_board();
         for(int i = 0; i < 6; i++){
@@ -99,7 +103,7 @@ public class EscampeBoard {
 
 		try {
 
-			FileWriter sauv = new FileWriter(fileName);
+			FileWriter sauv = new FileWriter(filePath);
 			sauv.write(sauvegarde);
 			sauv.close();
 
@@ -447,10 +451,10 @@ public class EscampeBoard {
 	    String projectDir = Paths.get(".").toAbsolutePath().normalize().toString();
 	 
 	    // Test setFromFile
-	    eb.setFromFile(projectDir + "\\src\\data\\plateau1.txt");	    
+	    eb.setFromFile("\\src\\data\\plateau1.txt");	    
 	    
 	    // Test saveToFile
-	    eb.saveToFile(projectDir + "\\src\\data\\sauvegarde.txt");
+	    eb.saveToFile("\\src\\data\\sauvegarde.txt");
 	 
 	    // Test isValideMove
         
