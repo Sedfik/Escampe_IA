@@ -4,6 +4,7 @@ public class JoueurSuperFort implements IJoueur{
 
 	private int colour;
 	
+	
 	@Override
 	public void initJoueur(int mycolour) {
 		// TODO Auto-generated method stub
