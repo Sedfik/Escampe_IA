@@ -6,5 +6,6 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/kobay/Desktop/maven.1555580518781/escampeobf.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
