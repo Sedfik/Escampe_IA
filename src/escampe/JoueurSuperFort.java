@@ -3,7 +3,7 @@ package escampe;
 public class JoueurSuperFort implements IJoueur{
 
 	private String player;
-	private EscampeBoard board;
+	private static EscampeBoard board;
 	
 	
 	@Override
@@ -44,10 +44,16 @@ public class JoueurSuperFort implements IJoueur{
 	@Override
 	public void mouvementEnnemi(String coup) {
 		// TODO Auto-generated method stub
-		if(player == "blanc")
+		if(player == "blanc") {
 			board.play(coup, "noir");
-		else
+			board.print_black();
+			board.print_white();
+		}
+		else {
 			board.play(coup, "blanc");
+			board.print_black();
+			board.print_white();
+		}
 	}
 
 	@Override

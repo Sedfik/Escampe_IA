@@ -350,7 +350,6 @@ public class EscampeBoard {
 	
 	public void play(String move, String player){
 		//pour le placement en debut de partie
-		char[][] board = lists_to_board();
         if(move.length() > 5){ 
             String[] pions = move.split("/");
 
@@ -367,6 +366,7 @@ public class EscampeBoard {
         }
         //pour un deplacement normal
         else{
+    		char[][] board = lists_to_board();
             String[] change = move.split("-");
             String start = change[0];
             String end = change[1];
@@ -440,6 +440,20 @@ public class EscampeBoard {
 	int get_i_from_string(String s){
 		char i = s.charAt(1);
 		return (Character.getNumericValue(i)-1);
+	}
+	
+	public void print_white () {
+		for (int i=0; i<white.length; i++) {
+			System.out.print(white[i]+";");
+		}
+		System.out.println("");
+	}
+	
+	public void print_black () {
+		for (int i=0; i<black.length; i++) {
+			System.out.print(black[i]+";");
+		}
+		System.out.println("");
 	}
 	
 	
