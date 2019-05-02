@@ -36,6 +36,14 @@ public class EscampeBoard {
 	private int last_lisere = 0;
 	private String bord_noir;
 	
+	public String[] getWhite() {
+		return this.white;
+	}
+	
+	public String[] getBlack() {
+		return this.black;
+	}
+	
 	public EscampeBoard (String[] w, String[] b){
 		this.white = w;
 		this.black = b;
@@ -43,6 +51,8 @@ public class EscampeBoard {
 	
     public EscampeBoard() {
         // TODO Auto-generated constructor stub
+    	this.white = new String[] {null};
+    	this.black = new String[] {null};
     }
 	
 	//Methodes demandees
@@ -352,16 +362,12 @@ public class EscampeBoard {
 		//pour le placement en debut de partie
         if(move.length() > 5){ 
             String[] pions = move.split("/");
-
+            
             if(player == "blanc"){
-                for(int i = 0; i < 6; i++) {
-                    white[i] = pions[i];
-                }
+                    white = pions;
             }
             else {
-                for(int i = 0; i < 6; i++){
-                    black[i] = pions[i];
-                }
+                    black = pions;
             }
         }
         //pour un deplacement normal
@@ -392,7 +398,7 @@ public class EscampeBoard {
             	}
                 int pion = 0;
                 while(!black[pion].contentEquals(start)){
-                    pion++;
+                	pion++;               
                 }
                 black[pion] = end;
             }
@@ -471,9 +477,11 @@ public class EscampeBoard {
 	    eb.saveToFile("\\src\\data\\sauvegarde.txt");
 	    
 	    // Test isValideMove
-	    
+
+        System.out.println(eb.isValidMove("A1-A2", "blanc"));
 	    // On cherche tous les moves
         String[] pm = eb.possibleMoves("blanc");
+
         for(String s : pm) {
             System.out.println(s);
         }
