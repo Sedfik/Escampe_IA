@@ -5,7 +5,6 @@ import java.util.LinkedList;
 
 import iia.espacesEtats.modeles.Etat;
 import iia.espacesEtats.modeles.Probleme;
-import problemes.tortues.EtatTortue;
 
 public class ProblemeEscampe extends Probleme{
 	
