@@ -1,30 +1,36 @@
 package escampe;
 
+import iia.espacesEtats.algorithmes.AEtoile;
+import iia.espacesEtats.modeles.Etat;
+import iia.espacesEtats.modeles.Heuristique;
+
 public class JoueurSuperFort implements IJoueur{
 
 	private String player;
 	private static EscampeBoard board;
-	
+	private static AEtoile algo = new AEtoile(
+		new Heuristique() {
+		
+			@Override
+			public float eval(Etat e) {
+				// TODO Auto-generated method stub
+				return 0;
+			}
+		}
+	);
 	
 	@Override
 	public void initJoueur(int mycolour) {
 		// TODO Auto-generated method stub
 		board = new EscampeBoard();
 		//board.setFromFile("\\src\\data\\plateau1.txt");
-		if(mycolour == -1)
-			player = "blanc";
-		else
-			player = "noir";
-	
+		player = (mycolour == -1) ? "blanc" : "noir";
 	}
 
 	@Override
 	public int getNumJoueur() {
 		// TODO Auto-generated method stub
-		if (player == "blanc")
-			return -1;
-		else
-			return 1;
+		return player == "blanc" ? -1 : 1;
 	}
 
 	@Override
