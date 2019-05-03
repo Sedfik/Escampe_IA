@@ -27,5 +27,4 @@ public class ProblemeEscampe extends Probleme{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
 }
