@@ -36,15 +36,26 @@ public class JoueurSuperFort implements IJoueur{
 	@Override
 	public String choixMouvement() {
 		// TODO Auto-generated method stub
-		if(board.gameOver())
-			return "xxxxx";
+		/*if(board.gameOver())
+			return "xxxxx";*/
 		String w = "B2/A1/B1/C2/E2/F2";
 		String b = "C6/A6/B5/D5/E6/F5";
 		if((board.getWhite()[0] == null) || (board.getBlack()[0] == null)){
 			return ((player == "blanc") ?  w : b);
 		}
 		else {
+			//Si le coup choisi est fatal, on renvoit xxxxx pour signaler la fin de partie
 			String[] moves = board.possibleMoves(player);
+			if (player == "blanc") {
+				if (moves[0].split("-")[1].contentEquals(board.getBlack()[0])) {
+					return "xxxxx";
+				}
+			}
+			else {
+				if (moves[0].split("-")[1].contentEquals(board.getWhite()[0])) {
+					return "xxxxx";
+				}
+			}
 			return moves[0];
 		}
 	}
