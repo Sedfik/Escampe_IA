@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import iia.espacesEtats.modeles.Etat;
 
-public class EscampeBoard {
+
+public class EscampeBoard implements Etat {
 	
 	//Attributs
 	public final static char[] alphabet = {'A','B','C','D','E','F'};
