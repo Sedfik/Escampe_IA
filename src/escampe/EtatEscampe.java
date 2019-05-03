@@ -2,13 +2,29 @@ package escampe;
 
 import iia.espacesEtats.modeles.Etat;
 
-/** Un etat est represente par un Joueur de l'interface IJoueur
- * autorisant l'acces au plateau et a la couleur du joueur*/
 public class EtatEscampe implements Etat{
-	IJoueur joueur;
+
+	private EscampeBoard escampeBoard;
+	private String nomJoueur;
 	
-	public EtatEscampe(IJoueur joueur) {
-		// TODO Auto-generated constructor stub
-		this.joueur = joueur;
+	public EtatEscampe(EscampeBoard escampeBoard, String nomJoueur) {
+		super();
+		this.escampeBoard = escampeBoard;
+		this.nomJoueur = nomJoueur;
 	}
+
+	public EscampeBoard getEscampeBoard() {
+		return escampeBoard;
+	}
+
+	public String getNomJoueur() {
+		return nomJoueur;
+	}
+
+	public EtatEscampe(EtatEscampe ee) {
+		this.escampeBoard = ee.escampeBoard;
+		this.nomJoueur = ee.getNomJoueur();
+	}
+	
+	
 }

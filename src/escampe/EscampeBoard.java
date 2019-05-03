@@ -33,8 +33,8 @@ public class EscampeBoard implements Etat {
     //Chiffre en i
 
     
-	private String[] white = new String[6];
-	private String[] black = new String[6];
+	private String[] white;
+	private String[] black;
 	private int last_lisere = 0;
 	private String bord_noir;
 	
@@ -47,6 +47,8 @@ public class EscampeBoard implements Etat {
 	}
 	
 	public EscampeBoard (String[] w, String[] b){
+		this.white = new String[6];
+		this.black = new String[6];
 		this.white = w;
 		this.black = b;
 	}
@@ -57,6 +59,8 @@ public class EscampeBoard implements Etat {
     	this.black = new String[] {null};
     }
 	
+
+    
 	//Methodes demandees
 	public void setFromFile(String fileName){
 		String projectDir = Paths.get(".").toAbsolutePath().normalize().toString();
@@ -487,5 +491,10 @@ public class EscampeBoard implements Etat {
         for(String s : pm) {
             System.out.println(s);
         }
+	}
+
+	public float cout(Etat e2) {
+		// TODO Auto-generated method stub
+		return 1;
 	}
 }
