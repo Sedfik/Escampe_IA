@@ -7,7 +7,12 @@ import iia.espacesEtats.modeles.Etat;
 import iia.espacesEtats.modeles.Probleme;
 import iia.espacesEtats.modeles.ProblemeACout;
 import problemes.tsp.EtatTSP;
-
+/**
+ * 	┏━━╮┏┓┏┓╭━┓┏━┓
+	┃┏╮┃┃┃┃┃┃╭┛┃┗┓
+	┃┃┃╰┛┃┃┃┃╰┓┃┗┓
+	┗┛╰━━┛┗┛╰━┛┗━┛﻿
+	@author ramos*/
 public class ProblemeEscampe extends ProblemeACout{
 	
 	public ProblemeEscampe(Etat eInit, String nom) {
