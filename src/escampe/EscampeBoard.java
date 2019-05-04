@@ -50,6 +50,12 @@ public class EscampeBoard implements Etat {
 		return this.last_lisere;
 	}
 	
+	public int getLisereAt(String c) {
+		int i = get_i_from_string(c);
+		int j = get_j_from_string(c);
+		return liserePlateau[i][j];
+	}
+	
 	public EscampeBoard (String[] w, String[] b, int last_lisere){
 		this.white = new String[6];
 		this.black = new String[6];

@@ -43,7 +43,8 @@ public class ProblemeEscampe extends ProblemeACout{
             	System.out.println("movement : "+m);
             	eb.print_black();
             	eb.print_white();
-            	System.out.println(etat.getPlayer());
+            	System.out.println("joueur : "+etat.getPlayer());
+            	System.out.println("lastlisere : "+etat.getLastLisere());
             	//On fait des copies pour eviter les effets de bords
             	String[] white = etat.getWhite().clone();
             	String[] black = etat.getBlack().clone();
@@ -51,7 +52,9 @@ public class ProblemeEscampe extends ProblemeACout{
             	int lastLisere = new Integer(etat.getLastLisere());
             	//On recupere l'etat resultant d'un coup en modifiant directement les variables d'etat et en simulant un coup
             	eb.simulate_play(m, white, black, player, lastLisere);
-            	//TODO : LastLisere n'est pas modifie a l'issue de l'appel alors que normalement ca devrait ptn de sa mere
+            	//On recupere le lisere du coup
+            	lastLisere = eb.getLisereAt(m.split("-")[1]);
+            	//TODO : soucis avec lastlisere
             	System.out.println(lastLisere);
             	toRet.add(new EtatEscampe(white,black,player,lastLisere));
             }
