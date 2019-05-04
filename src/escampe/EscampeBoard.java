@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import iia.espacesEtats.modeles.Etat;
+import modeles.Etat;
 
 
 public class EscampeBoard implements Etat {
@@ -35,7 +35,7 @@ public class EscampeBoard implements Etat {
     
 	private String[] white;
 	private String[] black;
-	private int last_lisere = 0;
+	private int last_lisere;
 	private String bord_noir;
 	
 	public String[] getWhite() {
@@ -46,17 +46,19 @@ public class EscampeBoard implements Etat {
 		return this.black;
 	}
 	
-	public EscampeBoard (String[] w, String[] b){
+	public EscampeBoard (String[] w, String[] b, int last_lisere){
 		this.white = new String[6];
 		this.black = new String[6];
 		this.white = w;
 		this.black = b;
+		this.last_lisere = last_lisere;
 	}
 	
     public EscampeBoard() {
         // TODO Auto-generated constructor stub
     	this.white = new String[] {null};
     	this.black = new String[] {null};
+    	last_lisere = 0;
     }
 	
 
@@ -413,11 +415,6 @@ public class EscampeBoard implements Etat {
         }
 	}
 	
-	public boolean gameOver(){
-		//On regarde si l'une des deux positions des licornes est �gale � ZZ
-		return ( (white[0]=="ZZ")||(black[0]=="ZZ") );
-	}
-	
 	public char[][] lists_to_board(){
 		//Initialisation
 		char[][] board = new char[6][6];
@@ -436,6 +433,12 @@ public class EscampeBoard implements Etat {
 			board[get_i_from_string(this.black[i])][get_j_from_string(this.black[i])] = 'n';
 		}
 		return board;
+	}
+	
+	
+	public boolean gameOver(){
+		//On regarde si l'une des deux positions des licornes est �gale � ZZ
+		return ( (white[0]=="ZZ")||(black[0]=="ZZ") );
 	}
 	
 	int get_j_from_string(String s){
@@ -492,9 +495,90 @@ public class EscampeBoard implements Etat {
             System.out.println(s);
         }
 	}
+	
+	
+	/***********************************************************************************Fonctions necessaires pour la recherche de chemin **********************************************************************/
+	
+	
+	//Fonction qui servira pour enumerer les successeurs lors de la recherche de chemin
+		public void simulate_play (String move, String[] w, String[] b, String player, int lastLisere) {
+			//pour le placement en debut de partie
+	        if(move.length() > 5){ 
+	            String[] pions = move.split("/");
+	            
+	            if(player.contentEquals("blanc")){
+	                    w = pions;
+	            }
+	            else {
+	                    b = pions;
+	            }
+	        }
+	        //pour un deplacement normal
+	        else{
+	    		char[][] board = given_lists_to_board(w,b);
+	            String[] change = move.split("-");
+	            String start = change[0];
+	            String end = change[1];
+	            int end_i = get_i_from_string(end);
+	            int end_j = get_j_from_string(end);
+	            if(player.contentEquals("blanc")){
+	            	//On regarde si la licorne adverse est sur la case d'arrivee
+	            	if (board[end_i][end_j]=='N') {
+	            		//Dans ce cas, elle est morte
+	            		b[0]="ZZ";
+	            	}
+	                int pion = 0;
+	                while(!w[pion].contentEquals(start)){
+	                    pion++;
+	                }
+	                w[pion] = end;
+	            }
+	            else {
+	            	//On regarde si la licorne adverse est sur la case d'arrivee
+	            	if (board[end_i][end_j]=='B') {
+	            		//Dans ce cas, elle est morte
+	            		w[0]="ZZ";
+	            	}
+	                int pion = 0;
+	                while(!b[pion].contentEquals(start)){
+	                	pion++;               
+	                }
+	                b[pion] = end;
+	            }
+	            //On met a jour last_lisere
+	            lastLisere = liserePlateau[end_i][end_j];
+	            System.out.println(lastLisere);
+	        }
+	        //////////////////////////////////////////////////////////////////////////////////////////////////////////Pas sur du tout
+	        player = ( (player == "black") ? "white":"black" );
+		}
+		
+		
+		//fonction qui renvoie un plateau 6*6 en fonction d'un etat de jeu passé en parametres
+		public char[][] given_lists_to_board(String[] w, String[] b){
+			//Initialisation
+			char[][] board = new char[6][6];
+			for(int i=0; i<6; i++){
+				for(int j=0; j<6; j++){
+					board[i][j]='-';
+				}
+			}
+			//Positionnement des licornes
+			board[get_i_from_string(w[0])][get_j_from_string(w[0])] = 'B';
+			board[get_i_from_string(b[0])][get_j_from_string(b[0])] = 'N';
+			
+			//Affectation des pions blancs
+			for(int i=1; i<6; i++){
+				board[get_i_from_string(w[i])][get_j_from_string(w[i])] = 'b';
+				board[get_i_from_string(b[i])][get_j_from_string(b[i])] = 'n';
+			}
+			return board;
+		}
+		
 
-	public float cout(Etat e2) {
-		// TODO Auto-generated method stub
-		return 1;
-	}
+		public float cout(Etat e2) {
+			////////////////////////////////////////////////////////////////////////////////////////////////////Pas sur que ca coute 1
+			return 1;
+		}
+		
 }

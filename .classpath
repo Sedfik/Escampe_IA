@@ -6,6 +6,5 @@
 			<attribute name="module" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="iia.td8_Kobayashi_Ramos-1.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
