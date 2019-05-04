@@ -1,11 +1,11 @@
 package escampe;
 
-import iia.espacesEtats.algorithmes.AEtoile;
-import iia.espacesEtats.algorithmes.RechercheEnLargeur;
-import iia.espacesEtats.modeles.Etat;
-import iia.espacesEtats.modeles.Heuristique;
-import iia.espacesEtats.modeles.Probleme;
-import iia.espacesEtats.modeles.Solution;
+import algorithmes.AEtoile;
+import algorithmes.RechercheEnLargeur;
+import modeles.Etat;
+import modeles.Heuristique;
+import modeles.Probleme;
+import modeles.Solution;
 
 public class JoueurSuperFort implements IJoueur{
 
@@ -13,7 +13,7 @@ public class JoueurSuperFort implements IJoueur{
 	private EscampeBoard board; //TODO : Peut-il etre static avec l'algo IA?
 	
 	
-	private static Heuristique h1 = new Heuristique() {
+	/*private static Heuristique h1 = new Heuristique() {
 		
 		@Override
 		public float eval(Etat e) {
@@ -66,8 +66,8 @@ public class JoueurSuperFort implements IJoueur{
             }
 		}
 	};
-	
-	private Heuristique h3 = new Heuristique() {
+	*/
+	private static Heuristique h3 = new Heuristique() {
 		
 		@Override
 		public float eval(Etat arg0) {
@@ -76,7 +76,7 @@ public class JoueurSuperFort implements IJoueur{
 		}
 	};
 	
-	private static AEtoile algo = new AEtoile(h1);
+	private static AEtoile algo = new AEtoile(h3);
 	
 	@Override
 	public void initJoueur(int mycolour) {
@@ -94,8 +94,6 @@ public class JoueurSuperFort implements IJoueur{
 
 	@Override
 	public String choixMouvement() {
-		// TODO Auto-generated method stub
-		
 		
 		if(board.gameOver()) {
 			return "xxxxx";
@@ -110,9 +108,8 @@ public class JoueurSuperFort implements IJoueur{
 		}
 		else {
 			
-			Etat initial = new EtatEscampe(board, player);
+			Etat initial = new EtatEscampe(board.getWhite(), board.getBlack(), player, 0);
 			Probleme pb = new ProblemeEscampe(initial, "Pb escampe");
-			
 			Solution sol = algo.chercheSolution(pb);
 			
 			if (sol != null) {
@@ -121,9 +118,6 @@ public class JoueurSuperFort implements IJoueur{
 			}
 			else
 				System.out.println("Echec !");
-			
-			
-			
 			
 			//// Mais du coup le coup n'est pas joué non ?
 			
@@ -156,14 +150,14 @@ public class JoueurSuperFort implements IJoueur{
 		// TODO Auto-generated method stub
 		if(player == "blanc") {
 			board.play(coup, "noir");
-			board.print_black();
-			board.print_white();
 		}
 		else {
 			board.play(coup, "blanc");
-			board.print_black();
-			board.print_white();
 		}
+		System.out.print("Black :");
+		board.print_black();
+		System.out.print("White :");
+		board.print_white();
 	}
 
 	@Override

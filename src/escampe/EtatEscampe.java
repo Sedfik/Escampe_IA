@@ -1,30 +1,78 @@
 package escampe;
 
-import iia.espacesEtats.modeles.Etat;
+import modeles.Etat;
 
 public class EtatEscampe implements Etat{
 
-	private EscampeBoard escampeBoard;
-	private String nomJoueur;
+	private String[] white;
+	private String[] black;
+	private String player;
+	private int lastLisere;
 	
-	public EtatEscampe(EscampeBoard escampeBoard, String nomJoueur) {
+	public EtatEscampe(String[] white, String[] black, String player, int lastLisere) {
 		super();
-		this.escampeBoard = escampeBoard;
-		this.nomJoueur = nomJoueur;
+		this.white = white;
+		this.black = black;
+		this.player = player;
+		this.lastLisere = lastLisere;
 	}
 
-	public EscampeBoard getEscampeBoard() {
-		return escampeBoard;
+
+	public String[] getWhite() {
+		return white;
 	}
 
-	public String getNomJoueur() {
-		return nomJoueur;
+
+
+	public void setWhite(String[] white) {
+		this.white = white;
 	}
+
+
+
+	public String[] getBlack() {
+		return black;
+	}
+
+
+
+	public void setBlack(String[] black) {
+		this.black = black;
+	}
+
+
+
+	public String getPlayer() {
+		return player;
+	}
+
+
+
+	public void setPlayer(String player) {
+		this.player = player;
+	}
+
+
+	public int getLastLisere() {
+		return lastLisere;
+	}
+
+
+	public void setLastLisere(int lastLisere) {
+		this.lastLisere = lastLisere;
+	}
+
 
 	public EtatEscampe(EtatEscampe ee) {
-		this.escampeBoard = ee.escampeBoard;
-		this.nomJoueur = ee.getNomJoueur();
+		this.white = ee.white;
+		this.black = ee.black;
+		this.player = ee.player;
+		this.lastLisere = ee.lastLisere;
 	}
 	
+	public float cout(EtatEscampe e2) {
+		////////////////////////////////////////////////////////////////////////////////////////////////////Pas sur que ca coute 1
+		return 1;
+	}
 	
 }
