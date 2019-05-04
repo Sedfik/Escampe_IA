@@ -46,6 +46,10 @@ public class EscampeBoard implements Etat {
 		return this.black;
 	}
 	
+	public int getLastLisere() {
+		return this.last_lisere;
+	}
+	
 	public EscampeBoard (String[] w, String[] b, int last_lisere){
 		this.white = new String[6];
 		this.black = new String[6];
@@ -549,7 +553,7 @@ public class EscampeBoard implements Etat {
 	            lastLisere = liserePlateau[end_i][end_j];
 	            System.out.println(lastLisere);
 	        }
-	        //////////////////////////////////////////////////////////////////////////////////////////////////////////Pas sur du tout
+	        /////////////////////////////////////////////////////////////////////////////////////////TODO : Pas sur du tout pour la modification du joueur
 	        player = ( (player == "black") ? "white":"black" );
 		}
 		

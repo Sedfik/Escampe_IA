@@ -35,11 +35,7 @@ public class ProblemeEscampe extends ProblemeACout{
 		LinkedList<Etat> toRet = new LinkedList<Etat>();
         if ((e instanceof EtatEscampe) && (!this.isTerminal(e))) {
             EtatEscampe etat = (EtatEscampe) e;
-            
-            //EtatEscampe newEb = null;
-            // Pour chaque coups possible on simule le mouvement dans un nouvel etat
-            //String[] pm = eb.getEscampeBoard().possibleMoves(eb.getNomJoueur());
-            
+  
             //On fait des copies pour eviter les effets de bords
             EscampeBoard eb = new EscampeBoard(etat.getWhite().clone(),etat.getBlack().clone(),new Integer(etat.getLastLisere()));
             
