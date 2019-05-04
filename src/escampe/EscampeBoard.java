@@ -575,10 +575,4 @@ public class EscampeBoard implements Etat {
 			return board;
 		}
 		
-
-		public float cout(Etat e2) {
-			////////////////////////////////////////////////////////////////////////////////////////////////////Pas sur que ca coute 1
-			return 1;
-		}
-		
 }
