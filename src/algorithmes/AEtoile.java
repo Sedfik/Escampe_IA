@@ -56,7 +56,7 @@ public class AEtoile implements AlgorithmeHeuristiqueRechercheEE {
     		}
     		//Si terminal
     		if (p_cout.isTerminal(n_fmin.getEtat())){
-    			this.noeudsDeveloppe-=100;
+    			//this.noeudsDeveloppe-=100;
     			Solution s = new Solution(n_fmin.getEtat());
     			while (n_fmin.getPere().getEtat()!=p_cout.getEtatInitial()){
     				s.add(n_fmin.getPere().getEtat());
