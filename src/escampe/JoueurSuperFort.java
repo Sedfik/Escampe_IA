@@ -32,31 +32,31 @@ public class JoueurSuperFort implements IJoueur{
                 throw new Error("Cette heursitique ne peut s'appliquer que sur des EtatEscampe");
             }
 		}
-	};
+	};*/
 	private static Heuristique h2 = new Heuristique() {
 		
 		@Override
 		public float eval(Etat e) {
 			if (e instanceof EtatEscampe) {
-				EtatEscampe eb = (EtatEscampe) e;
+				EtatEscampe ee = (EtatEscampe) e;
 				int ret = 0;
 				int iOrigin,jOrigin;
 				String[] pions;
 
-				if(eb.getNomJoueur() == "blanc") {
-					pions = eb.getEscampeBoard().getWhite();
+				if(ee.getPlayer() == "blanc") {
+					pions = ee.getWhite();
 					
 					}
 				else {
-					pions = eb.getEscampeBoard().getBlack();
+					pions = ee.getBlack();
 				}
-				iOrigin = eb.getEscampeBoard().get_i_from_string(pions[0]);
-				jOrigin = eb.getEscampeBoard().get_j_from_string(pions[0]);
+				iOrigin = EscampeBoard.get_i_from_string(pions[0]);
+				jOrigin = EscampeBoard.get_j_from_string(pions[0]);
 				
 				// On regarde la distance de chaques pions de la licorne
 				for(int i = 1; i < 6; i++) {
-					int iDistance = Math.abs(iOrigin - eb.getEscampeBoard().get_i_from_string(pions[i]));
-					int jDistance = Math.abs(jOrigin - eb.getEscampeBoard().get_j_from_string(pions[i]));
+					int iDistance = Math.abs(iOrigin - EscampeBoard.get_i_from_string(pions[i]));
+					int jDistance = Math.abs(jOrigin - EscampeBoard.get_j_from_string(pions[i]));
 					// Plus ils sont eloigne, plus la licorde est en danger
 					ret += (iDistance + jDistance);
 				}
@@ -66,17 +66,17 @@ public class JoueurSuperFort implements IJoueur{
             }
 		}
 	};
-	*/
+	
 	private static Heuristique h3 = new Heuristique() {
 		
 		@Override
-		public float eval(Etat arg0) {
+		public float eval(Etat e) {
 			// TODO Auto-generated method stub
 			return 0;
 		}
 	};
 	
-	private static AEtoile algo = new AEtoile(h3);
+	private static AEtoile algo = new AEtoile(h2);//met trop de temps
 	
 	@Override
 	public void initJoueur(int mycolour) {
@@ -98,7 +98,7 @@ public class JoueurSuperFort implements IJoueur{
 		if(board.gameOver()) {
 			return "xxxxx";
 		}
-			
+		//TODO : Premier mouvement a mieux choisir
 		String w = "B2/A1/B1/C2/E2/F2";
 		String b = "C6/A6/B5/D5/E6/F5";
 		
@@ -108,13 +108,12 @@ public class JoueurSuperFort implements IJoueur{
 		}
 		else {
 			
-			Etat initial = new EtatEscampe(board.getWhite(), board.getBlack(), player, 0);
+			Etat initial = new EtatEscampe(board.getWhite(), board.getBlack(), player, board.getLastLisere());
 			Probleme pb = new ProblemeEscampe(initial, "Pb escampe");
 			Solution sol = algo.chercheSolution(pb);
 			
 			if (sol != null) {
 				System.out.println("Solution trouvée : ");
-				sol.affiche();
 			}
 			else
 				System.out.println("Echec !");
@@ -154,10 +153,12 @@ public class JoueurSuperFort implements IJoueur{
 		else {
 			board.play(coup, "blanc");
 		}
-		System.out.print("Black :");
-		board.print_black();
-		System.out.print("White :");
-		board.print_white();
+		
+		print_board();
+		//System.out.print("Black :");
+		//board.print_black();
+		//System.out.print("White :");
+		//board.print_white();
 	}
 
 	@Override
@@ -167,5 +168,24 @@ public class JoueurSuperFort implements IJoueur{
 			return ("kobayashi");
 		else
 			return ("ramos");
+	}
+	
+	public void print_board() {
+		if ( (board.getBlack()[0]!=null)&&(board.getWhite()[0]!=null)&&(!board.gameOver()) ){
+			char[][] eb = board.lists_to_board();
+			for(int i=0; i<6; i++) {
+				for(int j=0; j<6; j++) {
+					System.out.print(eb[i][j]+" ");
+					/*System.out.print(board.liserePlateau[i][j]);
+					System.out.print(" | ");*/
+				}
+				System.out.print("    ");
+				for(int j=0; j<6; j++) {
+					System.out.print(board.liserePlateau[i][j]);
+					System.out.print("|");
+				}
+				System.out.println("");
+			}
+		}
 	}
 }

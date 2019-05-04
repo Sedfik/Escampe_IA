@@ -23,8 +23,6 @@ public class ProblemeEscampe extends ProblemeACout{
 		// TODO Auto-generated constructor stub
 	}
 	
-	
-	//////////////////////////////////////////////////////////////////////A MODIFIER
 	@Override
 	public boolean isTerminal(Etat e) {
 		if (!(e instanceof EtatEscampe)) {
@@ -42,43 +40,42 @@ public class ProblemeEscampe extends ProblemeACout{
 		LinkedList<Etat> toRet = new LinkedList<Etat>();
         if ((e instanceof EtatEscampe) && (!this.isTerminal(e))) {
             EtatEscampe etat = (EtatEscampe) e;
-  
             //On fait des copies pour eviter les effets de bords
             EscampeBoard eb = new EscampeBoard(etat.getWhite().clone(),etat.getBlack().clone(),new Integer(etat.getLastLisere()));
             
             for(String m : eb.possibleMoves(etat.getPlayer())) {
-            	System.out.println("movement : "+m);
-            	eb.print_black();
-            	eb.print_white();
+            	/*
             	System.out.println("joueur : "+etat.getPlayer());
-            	
             	System.out.println("lastlisere : "+eb.getLastLisere());
-            	
-            	/** Ca marche du coup c'est bon non ? */
-            	
+            	System.out.println("movement : "+m);
+            	System.out.print("black : ");
+            	eb.print_black();
+            	System.out.print("blanc : ");
+            	eb.print_white();*/
+            	            	
             	//On fait des copies pour eviter les effets de bords
             	String[] white = etat.getWhite().clone();
             	String[] black = etat.getBlack().clone();
             	String player = new String(etat.getPlayer());
             	int lastLisere = new Integer(etat.getLastLisere());
-            	//On recupere l'etat resultant d'un coup en modifiant directement les variables d'etat et en simulant un coup
             	
             	//// TODO : Pq simplement simuler le coup et pas le jouer vraiment ? 
+            	//On recupere l'etat resultant d'un coup en modifiant directement les variables d'etat et en simulant un coup
             	eb.simulate_play(m, white, black, player, lastLisere);
-            	//On recupere le lisere du coup
-         
-            	lastLisere = eb.getLisereAt(m.split("-")[1]);
             	
-            	//TODO : soucis avec lastlisere
+            	
+            	//On recupere le lisere du coup pour le mettre a jour
+            	lastLisere = eb.getLisereAt(m.split("-")[1]);
+            	//On met a jour le joueur
+            	player = (player.contentEquals("blanc")) ? "noir":"blanc";
+
             	
             	/** TODO : L'affichage fait de la merde car les fonctions sont appelées de manière asynchrone 
             	 * du coup suivant l'affichage (long ou pas) ca va aparaitre à différents endroits
             	 * par exemple : */
             	//System.err.println("\nLisere at "+m.split("-")[1] +" = "+lastLisere);
             	/** donne un affichage different de :*/
-            	System.err.println(lastLisere);
             	
-            	// Ca je suis d'accord
             	toRet.add(new EtatEscampe(white,black,player,lastLisere));
             }
         }

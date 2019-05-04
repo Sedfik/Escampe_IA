@@ -451,7 +451,7 @@ public class EscampeBoard implements Etat {
 		return ( (white[0]=="ZZ")||(black[0]=="ZZ") );
 	}
 	
-	int get_j_from_string(String s){
+	public static int get_j_from_string(String s){
 		char j = s.charAt(0);
 		for (int w=0; w<6;w++){
 			if (alphabet[w]==j){
@@ -462,7 +462,7 @@ public class EscampeBoard implements Etat {
 		return -1;
 	}
 	
-	int get_i_from_string(String s){
+	public static int get_i_from_string(String s){
 		char i = s.charAt(1);
 		return (Character.getNumericValue(i)-1);
 	}
@@ -555,12 +555,7 @@ public class EscampeBoard implements Etat {
 	                }
 	                b[pion] = end;
 	            }
-	            //On met a jour last_lisere
-	            lastLisere = liserePlateau[end_i][end_j];
-	            System.out.println(lastLisere);
 	        }
-	        /////////////////////////////////////////////////////////////////////////////////////////TODO : Pas sur du tout pour la modification du joueur
-	        player = ( (player == "black") ? "white":"black" );
 		}
 		
 		
