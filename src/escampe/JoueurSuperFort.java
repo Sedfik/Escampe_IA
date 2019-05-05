@@ -82,12 +82,13 @@ public class JoueurSuperFort implements IJoueur{
 	//AETOILE TROP LONG ! CEST UN ALGO QUI NE SARRETE PAS TANT QUON A PAS TROUVE LA SOLUTION ? 
 	//private static AEtoile algo = new AEtoile(h2);//met trop de temps
 	private AlphaBeta algo;
-	
+	private AEtoile algoAStar;
 	@Override
 	public void initJoueur(int mycolour) {
 		board = new EscampeBoard();
 		//board.setFromFile("\\src\\data\\plateau1.txt");
-		System.err.println(mycolour);
+		algoAStar = new AEtoile(h);
+		
 		if(mycolour == -1) {
 			this.algo = new AlphaBeta(h, "blanc", "noir");
 			player = "blanc";
@@ -139,15 +140,17 @@ public class JoueurSuperFort implements IJoueur{
 			System.out.println("\n");
 			coupJoue = this.algo.meilleurCoup(initial);
 			System.out.println("Meilleur Coup : "+ coupJoue);
-			/*Probleme pb = new ProblemeEscampe( initial, "Pb escampe");
-			Solution sol = algo.chercheSolution(pb);
+			
+			// A étoile
+			Probleme pb = new ProblemeEscampe( initial, "Pb escampe");
+			Solution sol = algoAStar.chercheSolution(pb);
 			
 			if (sol != null) {
-				System.out.println("Solution trouvée : ");
+				System.out.println("Solution trouvée : " + sol);
 			}
 			else
 				System.out.println("Echec !");
-			*/
+			
 			
 			
 			
