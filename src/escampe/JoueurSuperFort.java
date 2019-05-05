@@ -85,7 +85,6 @@ public class JoueurSuperFort implements IJoueur{
 	
 	@Override
 	public void initJoueur(int mycolour) {
-		// TODO Auto-generated method stub
 		board = new EscampeBoard();
 		//board.setFromFile("\\src\\data\\plateau1.txt");
 		System.err.println(mycolour);
@@ -107,16 +106,6 @@ public class JoueurSuperFort implements IJoueur{
 
 	@Override
 	public String choixMouvement() {
-		/*if(player == "blanc") {
-			this.algo = new AlphaBeta(h, "blanc", "noir");
-			
-		}
-		else {
-			this.algo = new AlphaBeta(h, "noir", "blanc");
-			
-		}
-		*/
-		
 		
 		if(board.gameOver()) {
 			return "xxxxx";
@@ -135,6 +124,11 @@ public class JoueurSuperFort implements IJoueur{
 			EtatEscampe initial = new EtatEscampe(board.getWhite(), board.getBlack(), player, board.getLastLisere());
 			
 			String[] moves = board.possibleMoves(player);
+			
+			if (moves.length == 0) {
+				return "E";
+			}
+			
 			
 			System.out.println("Coups possibles de "+initial.getPlayer()+":");
 			System.err.println(algo.getJoueurMax());

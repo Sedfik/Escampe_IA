@@ -483,7 +483,12 @@ public class EscampeBoard implements Etat {
 	
 	
 	public static void main (String[] args){
-		//Tests
+		
+		String s = "";
+		String[] ss = s.split("/");
+		
+		System.err.println(ss.length );
+		/*//Tests
 	
 		EscampeBoard eb = new EscampeBoard();
 	    //Definition du chemin actuel
@@ -503,7 +508,7 @@ public class EscampeBoard implements Etat {
 
         for(String s : pm) {
             System.out.println(s);
-        }
+        }*/
 	}
 	
 	
