@@ -177,7 +177,7 @@ private float minMaxAlphaBeta (Probleme p, EtatEscampe ee, Heuristique h, int pr
     	return alpha;
     }
 
-    /* Fonctionnel 
+  
    public String meilleurCoup(EtatEscampe p) {
 	   
 	   nbnoeuds=0;
@@ -227,7 +227,7 @@ private float minMaxAlphaBeta (Probleme p, EtatEscampe ee, Heuristique h, int pr
 			   
 				alpha = newAlpha;
 			}
-			System.out.println("mCoup: "+mCoup);
+			//System.out.println("mCoup: "+mCoup);
 	   }
 	   System.out.println("Nombre de feuilles développés par la recherche : "+nbfeuilles);
 	   
@@ -235,7 +235,7 @@ private float minMaxAlphaBeta (Probleme p, EtatEscampe ee, Heuristique h, int pr
 	   
 	   return mCoup;
     }
-     */
+     
    
   // -------------------------------------------
   // Méthodes publiques
@@ -251,99 +251,99 @@ private float minMaxAlphaBeta (Probleme p, EtatEscampe ee, Heuristique h, int pr
   // -------------------------------------------
 
     
-//    private float minMaxAlphaBeta (EtatEscampe p, Heuristique h, int profondeur, float alpha, float beta){
-//    	
-//    	EscampeBoard eb = new EscampeBoard(p.getWhite().clone(), p.getBlack().clone(), new Integer(p.getLastLisere()));
-//    	
-//    	if ((profondeur <= 0) || (eb.gameOver())) {	// Si profondeur atteinte
-//    		
-//    		if (eb.gameOver()){
-//    			
-//    			nbnoeuds--;
-//    		}
-//    		
-//    		nbfeuilles++;
-//    		
-//    		return this.h.eval(p);	
-//    	
-//    	}
-//    	else { // Profondeur > 0
-//    		
-//    		for (String c : eb.possibleMoves(this.joueurMax)) { // Pour chaques coups possibles
-//    			
-//    			nbnoeuds++;
-//    			
-//    			String[] white = p.getWhite().clone();
-//            	String[] black = p.getBlack().clone();
-//            	String player = new String(joueurMax);
-//            	int lastLisere = Integer.valueOf(p.getLastLisere());
-//            	
-//            	eb.simulate_play(c, white, black, player, lastLisere);
-//            	
-//    			EtatEscampe pCopy = new EtatEscampe(white, black, player, lastLisere);
-//    			
-//    			beta = Math.min(beta, maxMinAlphaBeta(pCopy,h, profondeur - 1, alpha, beta));	
-//    	    			
-//    			if (alpha>=beta) {
-//    				
-//    				
-//    				return alpha;
-//    				
-//    			}
-//    			
-//			}
-//    		
-//    	}
-//    	
-//    	return beta;
-//    }
-//    
-//    private float maxMinAlphaBeta (EtatEscampe p, Heuristique h,int profondeur, float alpha, float beta){
-//    	
-//    	EscampeBoard eb = new EscampeBoard(p.getWhite().clone(), p.getBlack().clone(), new Integer(p.getLastLisere()));
-//    	
-//    	
-//    	if ((profondeur <= 0) || (eb.gameOver())) {	// Si profondeur atteinte
-//    		
-//    		if (eb.gameOver()){
-//    			
-//    			nbnoeuds--;
-//    		}
-//    		
-//    		nbfeuilles++;
-//    		
-//    		return this.h.eval(p);	
-//    	}
-//    	else { // Profondeur > 0
-//    		
-//    		for (String c : eb.possibleMoves(this.joueurMin)) { // Pour chaques coups possibles
-//    		  	
-//    			nbnoeuds++;
-//    		 	String[] white = p.getWhite().clone();
-//            	String[] black = p.getBlack().clone();
-//            	String player = new String(joueurMin);
-//            	int lastLisere = Integer.valueOf(p.getLastLisere());
-//            	
-//            	eb.simulate_play(c, white, black, player, lastLisere);
-//            	
-//    			//EtatEscampe pCopy = p.copy();
-//    			
-//    			//pCopy.joue(this.joueurMin, c);
-//    			
-//            	EtatEscampe pCopy = new EtatEscampe(white, black, player, lastLisere);
-//    			alpha = Math.max(alpha, minMaxAlphaBeta(pCopy,h, profondeur - 1,alpha,beta));
-//    			
-//    			if (alpha>=beta){
-//    				
-//    				return beta;
-//    			}
-//    			
-//			}
-//    		
-//    	}
-//    	
-//    	return alpha;
-//    }
+    private float minMaxAlphaBeta (EtatEscampe p, Heuristique h, int profondeur, float alpha, float beta){
+    	
+    	EscampeBoard eb = new EscampeBoard(p.getWhite().clone(), p.getBlack().clone(), new Integer(p.getLastLisere()));
+    	
+    	if ((profondeur <= 0) || (eb.gameOver())) {	// Si profondeur atteinte
+    		
+    		if (eb.gameOver()){
+    			
+    			nbnoeuds--;
+    		}
+    		
+    		nbfeuilles++;
+    		
+    		return this.h.eval(p);	
+    	
+    	}
+    	else { // Profondeur > 0
+    		
+    		for (String c : eb.possibleMoves(this.joueurMax)) { // Pour chaques coups possibles
+    			
+    			nbnoeuds++;
+    			
+    			String[] white = p.getWhite().clone();
+            	String[] black = p.getBlack().clone();
+            	String player = new String(joueurMax);
+            	int lastLisere = Integer.valueOf(p.getLastLisere());
+            	
+            	eb.simulate_play(c, white, black, player, lastLisere);
+            	
+    			EtatEscampe pCopy = new EtatEscampe(white, black, player, lastLisere);
+    			
+    			beta = Math.min(beta, maxMinAlphaBeta(pCopy,h, profondeur - 1, alpha, beta));	
+    	    			
+    			if (alpha>=beta) {
+    				
+    				
+    				return alpha;
+    				
+    			}
+    			
+			}
+    		
+    	}
+    	
+    	return beta;
+    }
+    
+    private float maxMinAlphaBeta (EtatEscampe p, Heuristique h,int profondeur, float alpha, float beta){
+    	
+    	EscampeBoard eb = new EscampeBoard(p.getWhite().clone(), p.getBlack().clone(), new Integer(p.getLastLisere()));
+    	
+    	
+    	if ((profondeur <= 0) || (eb.gameOver())) {	// Si profondeur atteinte
+    		
+    		if (eb.gameOver()){
+    			
+    			nbnoeuds--;
+    		}
+    		
+    		nbfeuilles++;
+    		
+    		return this.h.eval(p);	
+    	}
+    	else { // Profondeur > 0
+    		
+    		for (String c : eb.possibleMoves(this.joueurMin)) { // Pour chaques coups possibles
+    		  	
+    			nbnoeuds++;
+    		 	String[] white = p.getWhite().clone();
+            	String[] black = p.getBlack().clone();
+            	String player = new String(joueurMin);
+            	int lastLisere = Integer.valueOf(p.getLastLisere());
+            	
+            	eb.simulate_play(c, white, black, player, lastLisere);
+            	
+    			//EtatEscampe pCopy = p.copy();
+    			
+    			//pCopy.joue(this.joueurMin, c);
+    			
+            	EtatEscampe pCopy = new EtatEscampe(white, black, player, lastLisere);
+    			alpha = Math.max(alpha, minMaxAlphaBeta(pCopy,h, profondeur - 1,alpha,beta));
+    			
+    			if (alpha>=beta){
+    				
+    				return beta;
+    			}
+    			
+			}
+    		
+    	}
+    	
+    	return alpha;
+    }
 
 	public String getJoueurMin() {
 		return joueurMin;
@@ -352,8 +352,4 @@ private float minMaxAlphaBeta (Probleme p, EtatEscampe ee, Heuristique h, int pr
 	public String getJoueurMax() {
 		return joueurMax;
 	}
-
-    
-
-    
 }

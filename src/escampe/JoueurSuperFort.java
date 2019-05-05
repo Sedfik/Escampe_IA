@@ -138,14 +138,16 @@ public class JoueurSuperFort implements IJoueur{
 				
 			}
 			System.out.println("\n");
-			//coupJoue = this.algo.meilleurCoup(initial);
+			coupJoue = this.algo.meilleurCoup(initial);
 			
 			// A étoile
-			Probleme pb = new ProblemeEscampe( initial, "Pb escampe");
-			String meilleurCoup = algo.meilleurCoup(pb);
-			
-			System.out.println("Meilleur Coup : "+ meilleurCoup);
-			coupJoue = meilleurCoup;
+//			Probleme pb = new ProblemeEscampe( initial, "Pb escampe");
+//			System.err.println(pb.successeurs(initial).size());
+//			
+//			String meilleurCoup = algo.meilleurCoup(pb);
+//			
+//			System.out.println("Meilleur Coup : "+ meilleurCoup);
+//			coupJoue = meilleurCoup;
 			/*Solution sol = algoAStar.chercheSolution(pb);
 			if (sol != null) {
 				System.out.println("Solution trouvée : " + sol);
