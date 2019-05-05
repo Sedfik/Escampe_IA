@@ -96,7 +96,6 @@ public class JoueurSuperFort implements IJoueur{
 
 	@Override
 	public String choixMouvement() {
-		
 		if(board.gameOver()) {
 			return "xxxxx";
 		}

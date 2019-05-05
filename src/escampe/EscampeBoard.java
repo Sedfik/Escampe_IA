@@ -151,7 +151,7 @@ public class EscampeBoard implements Etat {
         if(move.length() > 5){
         	String[] pions = move.split("/");
         	//Si le joueur est noir, il commence et choisit son bord
-        	if (player == "noir") {
+        	if (player.contains("noir")) {
         		//Il peut choisir soit le bord haut ou bas
         		int i = get_i_from_string(pions[0]);
         		int j = get_j_from_string(pions[0]);
@@ -173,10 +173,10 @@ public class EscampeBoard implements Etat {
     				presence.add(p);
     				i = get_i_from_string(p);
     				j = get_j_from_string(p);
-    				if ( (bord_noir=="haut")&&((i<0)||(i>1)||(j<0)||(j>5)) ) {
+    				if ( (bord_noir.contains(("haut")))&&((i<0)||(i>1)||(j<0)||(j>5)) ) {
     					return false;		
     				}
-    				else if ( (bord_noir=="bas")&&((i<4)||(i>5)||(j<0)||(j>5)) ) {
+    				else if ( (bord_noir.contains("bas"))&&((i<4)||(i>5)||(j<0)||(j>5)) ) {
     					return false;
     				}
     			}
@@ -234,17 +234,14 @@ public class EscampeBoard implements Etat {
 
     
 	public String[] possibleMoves(String player){
-		//Liste des differents coups possibles
-		ArrayList<String> possible_moves = new ArrayList<>();
 		//Les pions qu'on va regarder 
 		String[] pions;
-		if (player=="blanc") {
+		if (player.contains("blanc")) {
 			pions = white;
 		}
 		else {
 			pions = black;
 		}
-
 		//On recupere les pions deplacables
 		ArrayList<String> pions_deplacables = new ArrayList<>();
 		//Si le lisere est egal a 0, i.e. si on est en debut de partie, alors le joueur peut deplacer n'importe quel pion
@@ -264,17 +261,32 @@ public class EscampeBoard implements Etat {
                 }
 			}
 		}
-		
+		//ArrayList des differents coups possibles qu'on va remplir par la suite
+		ArrayList<String> possible_moves = new ArrayList<>();
 		//Pour chaque pions deplacables, on regarde ses differentes cases atteignables
 		for (String p : pions_deplacables) {
-			//On met dans une HashMap la position du pion ainsi que une direction "nul" qui represente la direction de la ou on vient dans l'exploration des cases (donc nul au depart)
-			HashMap<String,String> pion = new HashMap<>();
-			pion.put(p, "nul");
+			
+			
+			System.out.println("NEW PION "+p);
+			
+			
+			//On met dans une ArrayList la position du pion ainsi que une direction "nul" qui represente la direction de la ou on vient dans l'exploration des cases (donc nul au depart)
+			ArrayList<String> pion = new ArrayList<>();
+			//On distingue les licornes aux paladins
+			if (p.contains(pions[0])) {
+				pion.add(p+"/l/nul");
+			}
+			else {
+				pion.add(p+"/p/nul");
+			}
 			ArrayList<String> cases_atteignables = explore_adjacents_rec (pion, player, 0, liserePlateau[get_i_from_string(p)][get_j_from_string(p)]);
-			//On traduit tout ca sous forme de coups potentiels
+			//On recupere les coups possibles
 			for (String c : cases_atteignables) {
-				String move = p+"-"+c;
-				possible_moves.add(move);
+				String move = p+"-"+c.split("/")[0];
+				//On ajoute pas les mouvements deja presents
+				if (!possible_moves.contains(move)) {
+					possible_moves.add(move);
+				}
 			}
 		}		
 		
@@ -283,16 +295,22 @@ public class EscampeBoard implements Etat {
 		for (int i=0; i<possible_moves.size();i++) {
 			possible_moves_tab[i]=possible_moves.get(i);
 		}
+		
+		
+		System.out.println("Possible moves number :" + possible_moves_tab.length);
 		return possible_moves_tab;
+		
+		
 	}
 	
-	public ArrayList<String> explore_adjacents_rec (HashMap<String,String> cases, String player, int n, int lisere){
+	public ArrayList<String> explore_adjacents_rec (ArrayList<String> cases, String player, int n, int lisere){
 		//Si on a atteint le nombre de mouvements, on renvoie la liste des positions des cases atteignables
 		if (n==lisere) {
 			ArrayList<String> cases_atteignables = new ArrayList<>();
-			for (String c: cases.keySet()) {
-				cases_atteignables.add(c);
+			for (String c: cases) {
+				cases_atteignables.add(c.split("/")[0]);
 			}
+			//System.out.println("finish");
 			return cases_atteignables;
 		}
 		else {
@@ -301,57 +319,62 @@ public class EscampeBoard implements Etat {
 		}
 	}
 	
-	public HashMap<String,String> explore_adjacents (HashMap<String,String> cases, String player) {		
+	public ArrayList<String> explore_adjacents (ArrayList<String> cases, String player) {		
 		//Tableau des differentes directions
 		String[] directions = {"haut","bas","droite","gauche"};
-		//Hashmap qui sera retourne
-		HashMap<String,String> res = new HashMap<>();
+		//ArrayList qui sera retourne
+		ArrayList<String> res = new ArrayList<>();
 		//On parcourt les cases a la frontiere
-		for (String c : cases.keySet()) {
-			int start_i = get_i_from_string(c);
-			int start_j = get_j_from_string(c);
+		for (String c : cases) {
+			//On decompose chaque case de la liste en ses differentes composantes (position,type du pion,direction par laquelle il vient)
+			String[] composantes = c.split("/");
+			String pos = composantes[0];
+			String p_type = composantes[1];
+			String come_from = composantes[2];
+			int start_i = get_i_from_string(pos);
+			int start_j = get_j_from_string(pos);
 			for (String d : directions) {
 				//Pour chaque case, on va explorer les cases adjacentes sauf celle de laquelle on vient
-				if (d!=cases.get(c)) {
-					if (d=="haut") {
+				if (d!=come_from) {
+					if (d.contains("haut")) {
 						//Si on ne sort pas du tableau
 						if (start_i-1>=0) {
 							//Si la case n'est pas occupee, alors on l'ajoute dans le resultat
-							if (!is_occupied(start_i-1,start_j,player)){
+							if (!is_occupied(start_i-1,start_j,p_type,player)){
 								String indice = String.valueOf(start_i-1 +1);//+1 car c'est un indice
 								String alpha = String.valueOf(alphabet[start_j]);
 								String new_case = alpha+indice;
-								res.put(new_case,"bas");
+								res.add(new_case+"/"+p_type+"/bas");
 							}	
 						}
 					}
-					if (d=="bas") {
+					if (d.contains("bas")) {
 						if (start_i+1<=5) {
-							if (!is_occupied(start_i+1,start_j,player)){
+							if (!is_occupied(start_i+1,start_j,p_type,player)){
 								String indice = String.valueOf(start_i+1 +1);
 								String alpha = String.valueOf(alphabet[start_j]);
 								String new_case = alpha+indice;
-								res.put(new_case,"haut");
+								res.add(new_case+"/"+p_type+"/haut");
 							}	
 						}
 					}				
-					if (d=="droite") {
+					if (d.contains("droite")) {
 						if (start_j+1<=5) {
-							if (!is_occupied(start_i,start_j+1,player)){
+							if (!is_occupied(start_i,start_j+1,p_type,player)){
 								String indice = String.valueOf(start_i +1);
 								String alpha = String.valueOf(alphabet[start_j+1]);
 								String new_case = alpha+indice;
-								res.put(new_case,"gauche");
+								res.add(new_case+"/"+p_type+"/gauche");
 							}	
 						}
 					}
-					if (d=="gauche") {
+					if (d.contains("gauche")) {
 						if (start_j-1>=0) {
-							if (!is_occupied(start_i,start_j-1,player)){
+							if (!is_occupied(start_i,start_j-1,p_type,player)){
 								String indice = String.valueOf(start_i +1);
 								String alpha = String.valueOf(alphabet[start_j-1]);
 								String new_case = alpha+indice;
-								res.put(new_case,"droite");
+								res.add(new_case+"/"+p_type+"/droite");
 							}	
 						}
 					}
@@ -361,21 +384,31 @@ public class EscampeBoard implements Etat {
 		return res;
 	}
 	
-	public boolean is_occupied (int i, int j, String player) {
+	
+	//Fonction qui regarde si la case est occupee en fonction d'un type de pion et d'un joueur
+	public boolean is_occupied (int i, int j, String p_type, String player) {
 		char[][] board = lists_to_board();
-		if (player=="noir") {
-			if ( (board[i][j]=='-')||(board[i][j]=='B') ) {
+		if (player.contains("noir")) {
+			if ( (board[i][j]=='-')) {
+				return false;
+			}
+			//Si c'est un paladin, il peut prendre la licorne adverse
+			if (p_type.contains("p")&&(board[i][j]=='B')) {
 				return false;
 			}
 		}
-		if (player=="blanc") {
-			if ( (board[i][j]=='-')||(board[i][j]=='N') ) {
+		if (player.contains("blanc")) {
+			if ( (board[i][j]=='-')) {
+				return false;
+			}
+			if (p_type.contains("p")&&(board[i][j]=='N')) {
 				return false;
 			}
 		}
 		return true;
 	}
 	
+
 	public void play(String move, String player){
 		//pour le placement en debut de partie
         if(move.length() > 5){ 

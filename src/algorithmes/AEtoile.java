@@ -33,6 +33,12 @@ public class AEtoile implements AlgorithmeHeuristiqueRechercheEE {
 
     /* Lance l'exploration sur un problème */
     public Solution chercheSolution(Probleme p) {
+    	
+    	/*
+    	System.out.println("aetoile");
+    	int cpt=0;*/
+    	
+    	
     	ProblemeACout p_cout = (ProblemeACout) p;
     	boolean present = false;
     	Collection<Noeud> deja_dev = new HashSet<Noeud>();
@@ -45,6 +51,11 @@ public class AEtoile implements AlgorithmeHeuristiqueRechercheEE {
     	f.put(sinit, this.h.eval(sinit.getEtat()));
     	this.noeudsDeveloppe++;
     	while(!(frontiere).isEmpty()){
+    		
+    		/*
+    		System.out.println(cpt);
+    		cpt++;*/
+    		
     		//initialisation du noeud
     		Noeud n_fmin = frontiere.get(0);
     		int indice_n = 0;

@@ -44,6 +44,7 @@ public class ProblemeEscampe extends ProblemeACout{
             EscampeBoard eb = new EscampeBoard(etat.getWhite().clone(),etat.getBlack().clone(),new Integer(etat.getLastLisere()));
             
             for(String m : eb.possibleMoves(etat.getPlayer())) {
+            	
             	/*
             	System.out.println("joueur : "+etat.getPlayer());
             	System.out.println("lastlisere : "+eb.getLastLisere());
@@ -59,23 +60,15 @@ public class ProblemeEscampe extends ProblemeACout{
             	String player = new String(etat.getPlayer());
             	int lastLisere = new Integer(etat.getLastLisere());
             	
-            	//// TODO : Pq simplement simuler le coup et pas le jouer vraiment ? 
             	//On recupere l'etat resultant d'un coup en modifiant directement les variables d'etat et en simulant un coup
             	eb.simulate_play(m, white, black, player, lastLisere);
             	
             	
             	//On recupere le lisere du coup pour le mettre a jour
             	lastLisere = eb.getLisereAt(m.split("-")[1]);
+            	
             	//On met a jour le joueur
-            	player = (player.contentEquals("blanc")) ? "noir":"blanc";
-
-            	
-            	/** TODO : L'affichage fait de la merde car les fonctions sont appelées de manière asynchrone 
-            	 * du coup suivant l'affichage (long ou pas) ca va aparaitre à différents endroits
-            	 * par exemple : */
-            	//System.err.println("\nLisere at "+m.split("-")[1] +" = "+lastLisere);
-            	/** donne un affichage different de :*/
-            	
+            	player = (player.contentEquals("blanc")) ? "noir":"blanc";          	
             	toRet.add(new EtatEscampe(white,black,player,lastLisere));
             }
         }
