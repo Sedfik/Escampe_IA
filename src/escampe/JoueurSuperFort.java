@@ -124,36 +124,35 @@ public class JoueurSuperFort implements IJoueur{
 			EtatEscampe initial = new EtatEscampe(board.getWhite(), board.getBlack(), player, board.getLastLisere());
 			
 			String[] moves = board.possibleMoves(player);
-			
+			/*
 			if (moves.length == 0) {
 				return "E";
 			}
+			*/
 			
-			
-			System.out.println("Coups possibles de "+initial.getPlayer()+":");
-			System.err.println(algo.getJoueurMax());
+			//System.out.println("Coups possibles de "+initial.getPlayer()+":");
+			//System.err.println(algo.getJoueurMax());
 			
 			for(String m : moves) {
 				System.out.print(m+ ",");
 				
 			}
 			System.out.println("\n");
-			coupJoue = this.algo.meilleurCoup(initial);
-			System.out.println("Meilleur Coup : "+ coupJoue);
+			//coupJoue = this.algo.meilleurCoup(initial);
 			
 			// A étoile
 			Probleme pb = new ProblemeEscampe( initial, "Pb escampe");
-			Solution sol = algoAStar.chercheSolution(pb);
+			String meilleurCoup = algo.meilleurCoup(pb);
 			
+			System.out.println("Meilleur Coup : "+ meilleurCoup);
+			coupJoue = meilleurCoup;
+			/*Solution sol = algoAStar.chercheSolution(pb);
 			if (sol != null) {
 				System.out.println("Solution trouvée : " + sol);
 			}
 			else
 				System.out.println("Echec !");
-			
-			
-			
-			
+			 */
 			
 			
 			
@@ -170,7 +169,9 @@ public class JoueurSuperFort implements IJoueur{
 					coupJoue = "xxxxx";
 				}
 			}
+			//coupJoue = moves[0];
 		}
+		
 		board.play(coupJoue,player);
 		return coupJoue;
 	}

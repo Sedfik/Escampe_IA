@@ -68,8 +68,9 @@ public class ProblemeEscampe extends ProblemeACout{
             	lastLisere = eb.getLisereAt(m.split("-")[1]);
             	
             	//On met a jour le joueur
-            	player = (player.contentEquals("blanc")) ? "noir":"blanc";          	
-            	toRet.add(new EtatEscampe(white,black,player,lastLisere));
+            	player = (player.contentEquals("blanc")) ? "noir":"blanc";
+            	
+            	toRet.add(new EtatEscampe(white,black,player,lastLisere, m));
             }
         }
         return toRet;

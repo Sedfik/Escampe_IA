@@ -8,7 +8,18 @@ public class EtatEscampe implements Etat{
 	private String[] black;
 	private String player;
 	private int lastLisere;
+	private String lastMove;
 	
+	public EtatEscampe(String[] white, String[] black, String player, int lastLisere, String lastMove) {
+		super();
+		this.white = white;
+		this.black = black;
+		this.player = player;
+		this.lastLisere = lastLisere;
+		this.lastMove = lastMove;
+	}
+
+
 	public EtatEscampe(String[] white, String[] black, String player, int lastLisere) {
 		super();
 		this.white = white;
@@ -69,6 +80,11 @@ public class EtatEscampe implements Etat{
 		this.player = ee.player;
 		this.lastLisere = ee.lastLisere;
 	}
+
+	public String getLastMove() {
+		return lastMove;
+	}
+
 
 	public float cout(EtatEscampe e2) {
 		////////////////////////////////////////////////////////////////////////////////////////////////////Pas sur que ca coute 1

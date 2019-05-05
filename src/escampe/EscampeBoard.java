@@ -267,7 +267,7 @@ public class EscampeBoard implements Etat {
 		for (String p : pions_deplacables) {
 			
 			
-			System.out.println("NEW PION "+p);
+			//System.out.println("NEW PION "+p);
 			
 			
 			//On met dans une ArrayList la position du pion ainsi que une direction "nul" qui represente la direction de la ou on vient dans l'exploration des cases (donc nul au depart)
@@ -297,7 +297,7 @@ public class EscampeBoard implements Etat {
 		}
 		
 		
-		System.out.println("Possible moves number :" + possible_moves_tab.length);
+		//System.out.println("Possible moves number :" + possible_moves_tab.length);
 		return possible_moves_tab;
 		
 		
