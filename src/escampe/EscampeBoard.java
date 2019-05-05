@@ -232,7 +232,7 @@ public class EscampeBoard implements Etat {
         return false;
 	}
 
-    
+	 // TODO : Il faut gérer le cas où le joueur ne peut pas jouer
 	public String[] possibleMoves(String player){
 		//Les pions qu'on va regarder 
 		String[] pions;
@@ -516,7 +516,12 @@ public class EscampeBoard implements Etat {
 	
 	
 	public static void main (String[] args){
-		//Tests
+		
+		String s = "";
+		String[] ss = s.split("/");
+		
+		System.err.println(ss.length );
+		/*//Tests
 	
 		EscampeBoard eb = new EscampeBoard();
 	    //Definition du chemin actuel
@@ -536,7 +541,7 @@ public class EscampeBoard implements Etat {
 
         for(String s : pm) {
             System.out.println(s);
-        }
+        }*/
 	}
 	
 	
@@ -571,7 +576,7 @@ public class EscampeBoard implements Etat {
 	            		b[0]="ZZ";
 	            	}
 	                int pion = 0;
-	                while(!w[pion].contentEquals(start)){
+	                while(!w[pion].equals(start)){
 	                    pion++;
 	                }
 	                w[pion] = end;

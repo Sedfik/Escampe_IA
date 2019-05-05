@@ -93,7 +93,7 @@ public class Solo {
     	
     	while (!partieFinie) {
     		nbCoups++;
-    		
+    		//System.err.println((JoueurSuperFort)joueurCourant);
     		System.out.println("\n*********\nOn demande à " + joueurCourant.binoName() + " de jouer...");
     		long waitingTime1 = new Date().getTime();
     		

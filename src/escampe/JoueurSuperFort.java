@@ -1,6 +1,7 @@
 package escampe;
 
 import algorithmes.AEtoile;
+import algorithmes.AlphaBeta;
 import algorithmes.RechercheEnLargeur;
 import modeles.Etat;
 import modeles.Heuristique;
@@ -12,8 +13,9 @@ public class JoueurSuperFort implements IJoueur{
 	public String player;
 	private EscampeBoard board; //TODO : Peut-il etre static avec l'algo IA?
 	
-	
-	private static Heuristique h1 = new Heuristique() {
+	private Heuristique h = HeuristiquesEscampe.h;
+		
+/*	private static Heuristique h1 = new Heuristique() {
 		
 		@Override
 		public float eval(Etat e) {
@@ -76,16 +78,24 @@ public class JoueurSuperFort implements IJoueur{
 			return 0;
 		}
 	};
+	*/
 	//AETOILE TROP LONG ! CEST UN ALGO QUI NE SARRETE PAS TANT QUON A PAS TROUVE LA SOLUTION ? 
 	//private static AEtoile algo = new AEtoile(h2);//met trop de temps
-	private static AEtoile algo = new AEtoile(h1);
+	private AlphaBeta algo;
 	
 	@Override
 	public void initJoueur(int mycolour) {
-		// TODO Auto-generated method stub
 		board = new EscampeBoard();
 		//board.setFromFile("\\src\\data\\plateau1.txt");
-		player = (mycolour == -1) ? "blanc" : "noir";
+		System.err.println(mycolour);
+		if(mycolour == -1) {
+			this.algo = new AlphaBeta(h, "blanc", "noir");
+			player = "blanc";
+		}
+		else {
+			this.algo = new AlphaBeta(h, "noir", "blanc");
+			player = "noir";
+		}
 	}
 
 	@Override
@@ -104,13 +114,32 @@ public class JoueurSuperFort implements IJoueur{
 		String b = "C6/A6/B5/D5/E6/F5";
 		
 		String coupJoue;
+		
 		if((board.getWhite()[0] == null) || (board.getBlack()[0] == null)){
 			coupJoue = ((player == "blanc") ?  w : b);
 		}
 		else {
 			
-			Etat initial = new EtatEscampe(board.getWhite(), board.getBlack(), player, board.getLastLisere());
-			Probleme pb = new ProblemeEscampe(initial, "Pb escampe");
+			EtatEscampe initial = new EtatEscampe(board.getWhite(), board.getBlack(), player, board.getLastLisere());
+			
+			String[] moves = board.possibleMoves(player);
+			
+			if (moves.length == 0) {
+				return "E";
+			}
+			
+			
+			System.out.println("Coups possibles de "+initial.getPlayer()+":");
+			System.err.println(algo.getJoueurMax());
+			
+			for(String m : moves) {
+				System.out.print(m+ ",");
+				
+			}
+			System.out.println("\n");
+			coupJoue = this.algo.meilleurCoup(initial);
+			System.out.println("Meilleur Coup : "+ coupJoue);
+			/*Probleme pb = new ProblemeEscampe( initial, "Pb escampe");
 			Solution sol = algo.chercheSolution(pb);
 			
 			if (sol != null) {
@@ -118,11 +147,16 @@ public class JoueurSuperFort implements IJoueur{
 			}
 			else
 				System.out.println("Echec !");
+			*/
 			
-			//// Mais du coup le coup n'est pas joué non ?
+			
+			
+			
+			
+			
 			
 			//Si le coup choisi est fatal, on renvoit xxxxx pour signaler la fin de partie
-			String[] moves = board.possibleMoves(player);
+			
 			if (player == "blanc") {
 				if (moves[0].split("-")[1].contentEquals(board.getBlack()[0])) {
 					coupJoue = "xxxxx";
@@ -133,7 +167,6 @@ public class JoueurSuperFort implements IJoueur{
 					coupJoue = "xxxxx";
 				}
 			}
-			coupJoue = moves[0];
 		}
 		board.play(coupJoue,player);
 		return coupJoue;
