@@ -13,26 +13,27 @@ public class JoueurSuperFort implements IJoueur{
 	private EscampeBoard board; //TODO : Peut-il etre static avec l'algo IA?
 	
 	
-	/*private static Heuristique h1 = new Heuristique() {
+	private static Heuristique h1 = new Heuristique() {
 		
 		@Override
 		public float eval(Etat e) {
 			// TODO Auto-generated method stub
 			if (e instanceof EtatEscampe) {
-				EtatEscampe eb = (EtatEscampe) e;
+				EtatEscampe ee = (EtatEscampe) e;
 				int evalutation = 0; 
-				for(String p : eb.getEscampeBoard().getWhite()) {
-					evalutation += eb.getEscampeBoard().get_i_from_string(p) + eb.getEscampeBoard().get_j_from_string(p);
+				for(String p : ee.getWhite()) {
+					evalutation += EscampeBoard.get_i_from_string(p) + EscampeBoard.get_j_from_string(p);
 				}
-				for(String p : eb.getEscampeBoard().getBlack()) {
-					evalutation -= eb.getEscampeBoard().get_i_from_string(p) + eb.getEscampeBoard().get_j_from_string(p);
+				for(String p : ee.getBlack()) {
+					evalutation -= EscampeBoard.get_i_from_string(p) + EscampeBoard.get_j_from_string(p);
 				}
                 return evalutation;
             } else {
                 throw new Error("Cette heursitique ne peut s'appliquer que sur des EtatEscampe");
             }
 		}
-	};*/
+	};
+	
 	private static Heuristique h2 = new Heuristique() {
 		
 		@Override
@@ -75,8 +76,9 @@ public class JoueurSuperFort implements IJoueur{
 			return 0;
 		}
 	};
-	
-	private static AEtoile algo = new AEtoile(h2);//met trop de temps
+	//AETOILE TROP LONG ! CEST UN ALGO QUI NE SARRETE PAS TANT QUON A PAS TROUVE LA SOLUTION ? 
+	//private static AEtoile algo = new AEtoile(h2);//met trop de temps
+	private static AEtoile algo = new AEtoile(h1);
 	
 	@Override
 	public void initJoueur(int mycolour) {

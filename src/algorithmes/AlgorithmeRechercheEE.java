@@ -5,7 +5,7 @@ import modeles.Solution;
 
 /**
  *  Interface minimale d'un algorithme de résolution de problème
- *  de recjercje dans un graphe d'états
+ *  de recherche dans un graphe d'états
  *  
  * @author Philippe Chatalic
  */
