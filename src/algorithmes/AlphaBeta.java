@@ -2,16 +2,18 @@
  * 
  */
 
-package iia.jeux.alg;
+package algorithmes;
 
 import java.util.ArrayList;
 
-import iia.jeux.modele.CoupJeu;
-import iia.jeux.modele.PlateauJeu;
-import iia.jeux.modele.joueur.Joueur;
-import jeux.dominos.PlateauDominos;
+import escampe.EscampeBoard;
+import escampe.EtatEscampe;
+import escampe.IJoueur;
 
-public class AlphaBeta implements AlgoRechercheArbre {
+import modeles.Etat;
+import modeles.Heuristique;
+
+public class AlphaBeta {
 
     /** La profondeur de recherche par défaut
      */
@@ -32,11 +34,11 @@ public class AlphaBeta implements AlgoRechercheArbre {
 
     /** Le joueur Min
      *  (l'adversaire) */
-    private Joueur joueurMin;
+    private String joueurMin;
 
     /** Le joueur Max
      * (celui dont l'algorithme de recherche adopte le point de vue) */
-    private Joueur joueurMax;
+    private String joueurMax;
 
     /**  Le nombre de noeuds développé par l'algorithme
      * (intéressant pour se faire une idée du nombre de noeuds développés) */
@@ -50,11 +52,11 @@ public class AlphaBeta implements AlgoRechercheArbre {
   // -------------------------------------------
   // Constructeurs
   // -------------------------------------------
-    public AlphaBeta(Heuristique h, Joueur joueurMax, Joueur joueurMin) {
+    public AlphaBeta(Heuristique h, String joueurMax, String joueurMin) {
         this(h,joueurMax,joueurMin,PROFMAXDEFAUT);
     }
 
-    public AlphaBeta(Heuristique h, Joueur joueurMax, Joueur joueurMin, int profMaxi) {
+    public AlphaBeta(Heuristique h, String joueurMax, String joueurMin, int profMaxi) {
         this.h = h;
         this.joueurMin = joueurMin;
         this.joueurMax = joueurMax;
@@ -66,44 +68,56 @@ public class AlphaBeta implements AlgoRechercheArbre {
   // Méthodes de l'interface AlgoJeu
   // -------------------------------------------
 
-   public CoupJeu meilleurCoup(PlateauJeu p) {
+   public String meilleurCoup(EtatEscampe p) {
 	   
 	   nbnoeuds=0;
 	   
 	   nbfeuilles=0;
 	   
-	   ArrayList<CoupJeu> coupsPossibles = p.coupsPossibles(joueurMax);
+	   EscampeBoard eb = new EscampeBoard(p.getWhite().clone(), p.getBlack().clone(), Integer.valueOf(p.getLastLisere()));
 	   
-	   CoupJeu firstCoup = coupsPossibles.get(0);
-	   
+	   String[] coupsPossibles = eb.possibleMoves(joueurMax);
+	  
+	   String firstCoup = coupsPossibles[0];
+	   System.out.println("Fisrt Coup: "+firstCoup);
+	   //System.err.println(joueurMax);
 	   nbnoeuds++;
 	   
-	   PlateauDominos firstP = (PlateauDominos) p.copy();
+		String[] w = p.getWhite().clone();
+    	String[] b = p.getBlack().clone();
+    	String pl = new String(joueurMax);
+    	int lastL = Integer.valueOf(p.getLastLisere());
+    	System.out.println("lastLisere: "+lastL);
+    	eb.simulate_play(firstCoup, w, b, pl, lastL);
+	   	EtatEscampe copyF = new EtatEscampe(w, b, pl, lastL);
+	   	float alpha =  minMaxAlphaBeta(copyF, this.h, this.profMax-1, -1000000, 1000000);
 	   
-	   firstP.joue(joueurMax,firstCoup);
+	   String mCoup = firstCoup;
 	   
-	   int alpha =  minMaxAlphaBeta(firstP, this.h, this.profMax-1, -1000000, 1000000);
-	   
-	   CoupJeu mCoup = firstCoup;
-	   
-	   for (int i=1; i<coupsPossibles.size();i++){
+	   	for (int i=1; i<coupsPossibles.length;i++){
 		   
-		   nbnoeuds++;
+	   		nbnoeuds++;
 		   
-		   CoupJeu nextCoup = coupsPossibles.get(i);
+	   		String nextCoup = coupsPossibles[i];
 		   
-		   PlateauDominos nextP = (PlateauDominos) p.copy();
+			String[] white = p.getWhite().clone();
+        	String[] black = p.getBlack().clone();
+        	String player = new String(joueurMax);
+        	int lastLisere = Integer.valueOf(p.getLastLisere());
+        	
+        	eb.simulate_play(nextCoup, white, black, player, lastLisere);
+        	
+			EtatEscampe pCopy = new EtatEscampe(white, black, player, lastLisere);
+			
+			float newAlpha = minMaxAlphaBeta(pCopy, this.h, profMax-1, alpha, 1000000);
 		   
-		   nextP.joue(joueurMax,nextCoup);
-		   	
-		   int newAlpha = minMaxAlphaBeta(nextP, this.h, profMax-1, alpha, 1000000);
-		   
-		   if (newAlpha>alpha){
+			if (newAlpha>alpha){
 			   
-			   mCoup = nextCoup;
+				mCoup = nextCoup;
 			   
-			   alpha = newAlpha;
-		   }
+				alpha = newAlpha;
+			}
+			System.out.println("mCoup: "+mCoup);
 	   }
 	   System.out.println("Nombre de feuilles développés par la recherche : "+nbfeuilles);
 	   
@@ -127,33 +141,42 @@ public class AlphaBeta implements AlgoRechercheArbre {
   // -------------------------------------------
 
     
-    private int minMaxAlphaBeta (PlateauJeu p, Heuristique h, int profondeur, int alpha, int beta){
+    private float minMaxAlphaBeta (EtatEscampe p, Heuristique h, int profondeur, float alpha, float beta){
     	
-    	if ((profondeur <= 0) || (p.finDePartie())) {	// Si profondeur atteinte
+    	EscampeBoard eb = new EscampeBoard(p.getWhite().clone(), p.getBlack().clone(), new Integer(p.getLastLisere()));
+    	
+    	if ((profondeur <= 0) || (eb.gameOver())) {	// Si profondeur atteinte
     		
-    		if (p.finDePartie()){
+    		if (eb.gameOver()){
     			
     			nbnoeuds--;
     		}
     		
     		nbfeuilles++;
     		
-    		return this.h.eval(p, this.joueurMax);	
+    		return this.h.eval(p);	
     	
     	}
     	else { // Profondeur > 0
     	
-    		for (CoupJeu c : p.coupsPossibles(this.joueurMax)) { // Pour chaques coups possibles
+    		
+    		for (String c : eb.possibleMoves(this.joueurMax)) { // Pour chaques coups possibles
     			
     			nbnoeuds++;
     			
-    	    	PlateauJeu pCopy = p.copy();
-    	    	
-    			pCopy.joue(this.joueurMax, c);	// On joue le coup
+    			String[] white = p.getWhite().clone();
+            	String[] black = p.getBlack().clone();
+            	String player = new String(joueurMax);
+            	int lastLisere = Integer.valueOf(p.getLastLisere());
+            	
+            	eb.simulate_play(c, white, black, player, lastLisere);
+            	
+    			EtatEscampe pCopy = new EtatEscampe(white, black, player, lastLisere);
     			
-    			beta = Math.min(beta, maxMinAlphaBeta(pCopy,h, profondeur - 1, alpha, beta));
-    			
+    			beta = Math.min(beta, maxMinAlphaBeta(pCopy,h, profondeur - 1, alpha, beta));	
+    	    			
     			if (alpha>=beta) {
+    				
     				
     				return alpha;
     				
@@ -166,29 +189,39 @@ public class AlphaBeta implements AlgoRechercheArbre {
     	return beta;
     }
     
-    private int maxMinAlphaBeta (PlateauJeu p, Heuristique h,int profondeur, int alpha, int beta){
+    private float maxMinAlphaBeta (EtatEscampe p, Heuristique h,int profondeur, float alpha, float beta){
     	
-    	if ((profondeur <= 0) || (p.finDePartie())) {	// Si profondeur atteinte
+    	EscampeBoard eb = new EscampeBoard(p.getWhite().clone(), p.getBlack().clone(), new Integer(p.getLastLisere()));
+    	
+    	
+    	if ((profondeur <= 0) || (eb.gameOver())) {	// Si profondeur atteinte
     		
-    		if (p.finDePartie()){
+    		if (eb.gameOver()){
     			
     			nbnoeuds--;
     		}
     		
     		nbfeuilles++;
     		
-    		return this.h.eval(p, this.joueurMin);	
+    		return this.h.eval(p);	
     	}
     	else { // Profondeur > 0
     		
-    		for (CoupJeu c : p.coupsPossibles(this.joueurMin)) { // Pour chaques coups possibles
+    		for (String c : eb.possibleMoves(this.joueurMin)) { // Pour chaques coups possibles
     		  	
     			nbnoeuds++;
+    		 	String[] white = p.getWhite().clone();
+            	String[] black = p.getBlack().clone();
+            	String player = new String(joueurMin);
+            	int lastLisere = Integer.valueOf(p.getLastLisere());
+            	
+            	eb.simulate_play(c, white, black, player, lastLisere);
+            	
+    			//EtatEscampe pCopy = p.copy();
     			
-    			PlateauJeu pCopy = p.copy();
+    			//pCopy.joue(this.joueurMin, c);
     			
-    			pCopy.joue(this.joueurMin, c);
-    			
+            	EtatEscampe pCopy = new EtatEscampe(white, black, player, lastLisere);
     			alpha = Math.max(alpha, minMaxAlphaBeta(pCopy,h, profondeur - 1,alpha,beta));
     			
     			if (alpha>=beta){
@@ -202,5 +235,16 @@ public class AlphaBeta implements AlgoRechercheArbre {
     	
     	return alpha;
     }
+
+	public String getJoueurMin() {
+		return joueurMin;
+	}
+
+	public String getJoueurMax() {
+		return joueurMax;
+	}
+
+    
+
     
 }

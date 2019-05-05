@@ -69,7 +69,7 @@ public class EtatEscampe implements Etat{
 		this.player = ee.player;
 		this.lastLisere = ee.lastLisere;
 	}
-	
+
 	public float cout(EtatEscampe e2) {
 		////////////////////////////////////////////////////////////////////////////////////////////////////Pas sur que ca coute 1
 		return 1;

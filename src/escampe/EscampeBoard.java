@@ -232,7 +232,7 @@ public class EscampeBoard implements Etat {
         return false;
 	}
 
-    
+	 // TODO : Il faut gérer le cas où le joueur ne peut pas jouer
 	public String[] possibleMoves(String player){
 		//Liste des differents coups possibles
 		ArrayList<String> possible_moves = new ArrayList<>();
@@ -538,7 +538,7 @@ public class EscampeBoard implements Etat {
 	            		b[0]="ZZ";
 	            	}
 	                int pion = 0;
-	                while(!w[pion].contentEquals(start)){
+	                while(!w[pion].equals(start)){
 	                    pion++;
 	                }
 	                w[pion] = end;
