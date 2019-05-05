@@ -66,8 +66,8 @@ public class EscampeBoard implements Etat {
 	
     public EscampeBoard() {
         // TODO Auto-generated constructor stub
-    	this.white = new String[] {null};
-    	this.black = new String[] {null};
+    	this.white = new String[6];
+    	this.black = new String[6];
     	last_lisere = 0;
     }
 	
